@@ -4,16 +4,16 @@ const config: CodegenConfig = {
   overwrite: true,
   schema: ["http://10.10.100.57:3000/graphql"],
   documents: [
-    "./src/graphql/fragments/**/*.ts",
-    "./srcgraphql/query/**/*.ts",
-    "./src/graphql/mutation/**/*.ts",
-    "./src/graphql/subscription/**/*.ts",
-    "./src/**/*/gql.ts",
-    "./src/**/*/*.gql.ts",
-    "!./src/**/*.graphql.ts",
+    "./graphql/fragments/**/*.ts",
+    "./graphql/query/**/*.ts",
+    "./graphql/mutation/**/*.ts",
+    "./graphql/subscription/**/*.ts",
+    "./**/*/gql.ts",
+    "./**/*/*.gql.ts",
+    "!./**/*.graphql.ts",
   ],
   generates: {
-    "./src/graphql/generated/types.ts": {
+    "./graphql/generated/types.ts": {
       hooks: {
         afterOneFileWrite: ["prettier --write"],
       },
