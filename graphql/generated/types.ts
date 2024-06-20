@@ -168,7 +168,7 @@ export type MutationUpdateComponentArgs = {
 
 export type MutationUpdateHeaderArgs = {
   backgroundColor?: InputMaybe<Scalars['String']['input']>;
-  logoFile?: InputMaybe<Scalars['Upload']['input']>;
+  file?: InputMaybe<Scalars['Upload']['input']>;
   siteId: Scalars['Int']['input'];
   textColor?: InputMaybe<Scalars['String']['input']>;
   textSize?: InputMaybe<Scalars['Int']['input']>;
@@ -249,7 +249,7 @@ export type UpdateHeaderMutationVariables = Exact<{
   backgroundColor?: InputMaybe<Scalars['String']['input']>;
   textColor?: InputMaybe<Scalars['String']['input']>;
   textSize?: InputMaybe<Scalars['Int']['input']>;
-  logoFile?: InputMaybe<Scalars['Upload']['input']>;
+  file?: InputMaybe<Scalars['Upload']['input']>;
 }>;
 
 
@@ -269,13 +269,13 @@ export type FindOneSiteByIdQuery = { findOneSiteById: { id: number, name: string
 
 
 export const UpdateHeaderDocument = gql`
-    mutation UpdateHeader($siteId: Int!, $backgroundColor: String, $textColor: String, $textSize: Int, $logoFile: Upload) {
+    mutation UpdateHeader($siteId: Int!, $backgroundColor: String, $textColor: String, $textSize: Int, $file: Upload) {
   updateHeader(
     siteId: $siteId
     backgroundColor: $backgroundColor
     textColor: $textColor
     textSize: $textSize
-    logoFile: $logoFile
+    file: $file
   )
 }
     `;
@@ -298,7 +298,7 @@ export type UpdateHeaderMutationFn = Apollo.MutationFunction<UpdateHeaderMutatio
  *      backgroundColor: // value for 'backgroundColor'
  *      textColor: // value for 'textColor'
  *      textSize: // value for 'textSize'
- *      logoFile: // value for 'logoFile'
+ *      file: // value for 'file'
  *   },
  * });
  */

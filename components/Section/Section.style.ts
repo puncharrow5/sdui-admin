@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const Title = styled.h1<{ titleStyle?: TitleStyleEntity }>`
   font-weight: bold;
-  font-size: ${({ titleStyle }) => (titleStyle?.textSize ? titleStyle.textSize : 40)}px;
+  font-size: ${({ titleStyle }) => (titleStyle?.textSize ? titleStyle.textSize : 60)}px;
   color: ${({ titleStyle }) => (titleStyle?.textColor ? titleStyle.textColor : "#000")};
   margin-top: ${({ titleStyle }) => (titleStyle?.marginTop ? titleStyle.marginTop : 0)}px;
   margin-bottom: ${({ titleStyle }) => (titleStyle?.marginBottom ? titleStyle.marginBottom : 0)}px;
@@ -12,7 +12,7 @@ export const Title = styled.h1<{ titleStyle?: TitleStyleEntity }>`
 `;
 
 export const Content = styled.div<{ contentStyle?: ContentStyleEntity }>`
-  font-size: ${({ contentStyle }) => (contentStyle?.textSize ? contentStyle.textSize : 40)}px;
+  font-size: ${({ contentStyle }) => (contentStyle?.textSize ? contentStyle.textSize : 20)}px;
   color: ${({ contentStyle }) => (contentStyle?.textColor ? contentStyle.textColor : "#000")};
   margin-top: ${({ contentStyle }) => (contentStyle?.marginTop ? contentStyle.marginTop : 0)}px;
   margin-bottom: ${({ contentStyle }) =>

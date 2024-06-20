@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as S from "./SidePanel.style";
 import { ComponentEntity, ComponentType, SiteEntity } from "@/graphql/generated/types";
 import { SectionBox } from "../SectionBox";
+import { HeaderBox } from "../HeaderBox";
 
 interface Props {
   data?: SiteEntity;
@@ -42,9 +43,12 @@ export const SidePanel = ({ data }: Props) => {
         <p className="text-md font-bold">{data?.name}</p>
         <p className="text-sm text-gray-500">{data?.domain}</p>
       </S.InfoBox>
-      {sections.map((value: ComponentEntity, index: number) => (
-        <SectionBox key={index} data={value} />
-      ))}
+      <S.ComponentBox>
+        <HeaderBox siteId={data.id} data={data.header} />
+        {sections.map((value: ComponentEntity, index: number) => (
+          <SectionBox key={index} data={value} />
+        ))}
+      </S.ComponentBox>
     </S.Container>
   );
 };

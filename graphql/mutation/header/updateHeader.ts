@@ -6,14 +6,14 @@ export const UPDATE_HEADER = gql`
     $backgroundColor: String
     $textColor: String
     $textSize: Int
-    $logoFile: Upload
+    $file: Upload
   ) {
     updateHeader(
       siteId: $siteId
       backgroundColor: $backgroundColor
       textColor: $textColor
       textSize: $textSize
-      logoFile: $logoFile
+      file: $file
     )
   }
 `;

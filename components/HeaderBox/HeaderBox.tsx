@@ -16,6 +16,12 @@ interface Props {
   data?: HeaderEntity | null;
 }
 
+type File = {
+  uri?: string;
+  type?: string;
+  name?: string;
+};
+
 const HeaderOptionSchema = yup.object().shape({
   textSize: yup.number(),
   textColor: yup.string(),
@@ -42,9 +48,27 @@ export const HeaderBox = ({ siteId, data }: Props) => {
     setOpen(!open);
   };
 
+  const handleOpenUpload = () => {
+    document.getElementById("uploadLogo")?.click();
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+
+    if (selectedFile) {
+      const newFile: File = {
+        uri: URL.createObjectURL(selectedFile),
+        name: selectedFile.name,
+        type: selectedFile.type,
+      };
+
+      setFile(newFile);
+    }
+  };
+
   const handleSubmit = () => {
     loadUpdateHeader({
-      variables: { ...formik.values, logoFile: file, siteId },
+      variables: { ...formik.values, file, siteId },
     });
   };
 
@@ -61,6 +85,7 @@ export const HeaderBox = ({ siteId, data }: Props) => {
       textColor: data?.textColor ?? undefined,
       textSize: data?.textSize ?? undefined,
       backgroundColor: data?.backgroundColor ?? undefined,
+      logo: data?.logo ?? undefined,
     },
     onSubmit: handleSubmit,
   });
@@ -107,7 +132,13 @@ export const HeaderBox = ({ siteId, data }: Props) => {
             </S.FontSetting>
             <S.FontSetting>
               <p className="font-bold">로고 이미지</p>
-              <S.Input width="90px" />
+              <input type="file" id="uploadLogo" className="hidden" onChange={handleFileChange} />
+              <S.FileInput
+                value={file ? file.name : data?.logo ?? undefined}
+                onClick={handleOpenUpload}
+                width="90px"
+                readOnly
+              />
             </S.FontSetting>
           </S.ItemBox>
 
