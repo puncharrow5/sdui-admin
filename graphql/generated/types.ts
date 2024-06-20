@@ -15,6 +15,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  Upload: { input: any; output: any; }
 };
 
 /** 배경 종류 */
@@ -64,7 +65,7 @@ export enum ComponentType {
 /** 내용 스타일 */
 export type ContentStyleEntity = {
   /** 컴포넌트 ID */
-  componentId: Scalars['Float']['output'];
+  componentId: Scalars['Int']['output'];
   /** ID */
   id: Scalars['Int']['output'];
   /** 아래쪽 마진 */
@@ -121,10 +122,10 @@ export type Mutation = {
   createSite: Scalars['Boolean']['output'];
   /** 로그인 */
   login: Scalars['String']['output'];
-  /** 헤더 스타일 설정 */
-  setHeaderStyle: Scalars['Boolean']['output'];
   /** 컴포넌트 수정 */
   updateComponent: Scalars['Boolean']['output'];
+  /** 헤더 스타일 설정 */
+  updateHeader: Scalars['Boolean']['output'];
 };
 
 
@@ -154,13 +155,6 @@ export type MutationLoginArgs = {
 };
 
 
-export type MutationSetHeaderStyleArgs = {
-  backgroundColor?: InputMaybe<Scalars['String']['input']>;
-  siteId: Scalars['Int']['input'];
-  textColor?: InputMaybe<Scalars['String']['input']>;
-};
-
-
 export type MutationUpdateComponentArgs = {
   background?: InputMaybe<Scalars['String']['input']>;
   backgroundType?: InputMaybe<BackgroundType>;
@@ -169,6 +163,15 @@ export type MutationUpdateComponentArgs = {
   id: Scalars['Int']['input'];
   title?: InputMaybe<Scalars['String']['input']>;
   titleStyle?: InputMaybe<TitleStyleInput>;
+};
+
+
+export type MutationUpdateHeaderArgs = {
+  backgroundColor?: InputMaybe<Scalars['String']['input']>;
+  logoFile?: InputMaybe<Scalars['Upload']['input']>;
+  siteId: Scalars['Int']['input'];
+  textColor?: InputMaybe<Scalars['String']['input']>;
+  textSize?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type Query = {
@@ -241,6 +244,17 @@ export type TitleStyleInput = {
   textSize?: InputMaybe<Scalars['Int']['input']>;
 };
 
+export type UpdateHeaderMutationVariables = Exact<{
+  siteId: Scalars['Int']['input'];
+  backgroundColor?: InputMaybe<Scalars['String']['input']>;
+  textColor?: InputMaybe<Scalars['String']['input']>;
+  textSize?: InputMaybe<Scalars['Int']['input']>;
+  logoFile?: InputMaybe<Scalars['Upload']['input']>;
+}>;
+
+
+export type UpdateHeaderMutation = { updateHeader: boolean };
+
 export type FindManySiteQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -254,6 +268,47 @@ export type FindOneSiteByIdQueryVariables = Exact<{
 export type FindOneSiteByIdQuery = { findOneSiteById: { id: number, name: string, email: string, domain: string, components?: Array<{ id: number, componentType: ComponentType, name: string, title?: string | null, content?: string | null, backgroundType?: BackgroundType | null, background?: string | null, siteId: number, titleStyle?: { id: number, marginTop?: number | null, marginBottom?: number | null, marginRight?: number | null, marginLeft?: number | null, textSize?: number | null, textColor?: string | null, componentId: number } | null, contentStyle?: { id: number, marginTop?: number | null, marginBottom?: number | null, marginRight?: number | null, marginLeft?: number | null, textSize?: number | null, textColor?: string | null, componentId: number } | null }> | null, header?: { id: number, logo?: string | null, backgroundColor?: string | null, textSize?: number | null, textColor?: string | null, siteId: number } | null } };
 
 
+export const UpdateHeaderDocument = gql`
+    mutation UpdateHeader($siteId: Int!, $backgroundColor: String, $textColor: String, $textSize: Int, $logoFile: Upload) {
+  updateHeader(
+    siteId: $siteId
+    backgroundColor: $backgroundColor
+    textColor: $textColor
+    textSize: $textSize
+    logoFile: $logoFile
+  )
+}
+    `;
+export type UpdateHeaderMutationFn = Apollo.MutationFunction<UpdateHeaderMutation, UpdateHeaderMutationVariables>;
+
+/**
+ * __useUpdateHeaderMutation__
+ *
+ * To run a mutation, you first call `useUpdateHeaderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateHeaderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateHeaderMutation, { data, loading, error }] = useUpdateHeaderMutation({
+ *   variables: {
+ *      siteId: // value for 'siteId'
+ *      backgroundColor: // value for 'backgroundColor'
+ *      textColor: // value for 'textColor'
+ *      textSize: // value for 'textSize'
+ *      logoFile: // value for 'logoFile'
+ *   },
+ * });
+ */
+export function useUpdateHeaderMutation(baseOptions?: Apollo.MutationHookOptions<UpdateHeaderMutation, UpdateHeaderMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateHeaderMutation, UpdateHeaderMutationVariables>(UpdateHeaderDocument, options);
+      }
+export type UpdateHeaderMutationHookResult = ReturnType<typeof useUpdateHeaderMutation>;
+export type UpdateHeaderMutationResult = Apollo.MutationResult<UpdateHeaderMutation>;
+export type UpdateHeaderMutationOptions = Apollo.BaseMutationOptions<UpdateHeaderMutation, UpdateHeaderMutationVariables>;
 export const FindManySiteDocument = gql`
     query FindManySite {
   findManySite {

@@ -5,16 +5,17 @@ import * as S from "./Header.style";
 interface Props {
   sectionNames?: string[];
   logo?: string | null;
-  backgroundColor?: string | null;
+  textSize?: number | null;
   textColor?: string | null;
+  backgroundColor?: string | null;
 }
 
-export const Header = ({ sectionNames, logo, backgroundColor, textColor }: Props) => {
+export const Header = ({ sectionNames, logo, textSize, textColor, backgroundColor }: Props) => {
   return (
-    <S.Header>
-      <div>{logo ?? "로고"}</div>
+    <S.Header textSize={textSize} textColor={textColor} backgrounColor={backgroundColor}>
+      <div className="cursor-pointer">{logo ?? "로고"}</div>
 
-      <div className="flex gap-6">
+      <div className="flex gap-6 cursor-pointer">
         {sectionNames?.map((value: string, index: number) => (
           <Link to={value} spy={true} smooth={true} offset={-80} key={index}>
             {value}
