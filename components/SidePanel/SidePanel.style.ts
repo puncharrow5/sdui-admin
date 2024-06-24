@@ -11,9 +11,11 @@ export const Container = styled.div`
   background-color: #fff;
 `;
 
-export const InfoBox = styled.div`
+export const TitleBox = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
   padding: 20px;
   border-bottom: 1px solid #e7e7ec;

@@ -6,6 +6,11 @@ export const Container = styled.div`
   border-bottom: 1px solid #e7e7ec;
 `;
 
+export const Item = styled.div`
+  font-weight: bold;
+  font-size: 18px;
+`;
+
 export const SectionName = styled.div`
   display: flex;
   justify-content: space-between;

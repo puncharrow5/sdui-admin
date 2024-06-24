@@ -6,21 +6,12 @@ import { PanelButton } from "../PanelButton";
 import * as yup from "yup";
 import * as S from "./SectionBox.style";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
+import { TrashIcon } from "@heroicons/react/24/outline";
+import { getComponentType } from "@/utils";
 
 interface Props {
   data: ComponentEntity;
 }
-
-// const HeaderOptionSchema = yup.object().shape({
-//   textSize: yup.number(),
-//   textColor: yup.string(),
-//   backgroundColor: yup.string(),
-// });
-
-// const options = [
-//   { value: BackgroundType.Color, label: "색상" },
-//   { value: BackgroundType.Image, label: "이미지" },
-// ];
 
 export const SectionBox = ({ data }: Props) => {
   const client = useApolloClient();
@@ -42,6 +33,8 @@ export const SectionBox = ({ data }: Props) => {
     formik.resetForm();
     setFile(undefined);
   };
+
+  const handleDelete = () => {};
 
   const formik = useFormik({
     // validateOnChange: true,
@@ -73,7 +66,10 @@ export const SectionBox = ({ data }: Props) => {
       </S.SectionName>
       {open && (
         <S.Detail>
-          <S.Item>섹션</S.Item>
+          <S.ComponentType>
+            <S.Item>{getComponentType(data.componentType)}</S.Item>
+            <TrashIcon onClick={handleDelete} className="size-6 cursor-pointer" />
+          </S.ComponentType>
           <S.ItemBox marginTop={5}>
             <p className="font-bold">이름</p>
             <S.Input

@@ -42,6 +42,13 @@ export const ItemBox = styled.div<{
   gap: 20px;
 `;
 
+export const ComponentType = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+`;
+
 export const ButtonBox = styled.div`
   display: flex;
   flex-direction: row;

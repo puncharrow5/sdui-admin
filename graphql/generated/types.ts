@@ -40,6 +40,8 @@ export type ComponentEntity = {
   contentStyle?: Maybe<ContentStyleEntity>;
   /** ID */
   id: Scalars['Int']['output'];
+  /** 삭제 여부 */
+  isDelete: Scalars['Boolean']['output'];
   /** 컴포넌트 이름 */
   name: Scalars['String']['output'];
   /** 사이트 ID */
@@ -120,6 +122,8 @@ export type Mutation = {
   createComponent: Scalars['Boolean']['output'];
   /** 사이트 생성 */
   createSite: Scalars['Boolean']['output'];
+  /** 컴포넌트 삭제 */
+  deleteComponent: Scalars['Boolean']['output'];
   /** 로그인 */
   login: Scalars['String']['output'];
   /** 컴포넌트 수정 */
@@ -146,6 +150,11 @@ export type MutationCreateSiteArgs = {
   domain: Scalars['String']['input'];
   email: Scalars['String']['input'];
   name: Scalars['String']['input'];
+};
+
+
+export type MutationDeleteComponentArgs = {
+  id: Scalars['Int']['input'];
 };
 
 
@@ -244,6 +253,15 @@ export type TitleStyleInput = {
   textSize?: InputMaybe<Scalars['Int']['input']>;
 };
 
+export type CreateComponentMutationVariables = Exact<{
+  siteId: Scalars['Int']['input'];
+  componentType: ComponentType;
+  name: Scalars['String']['input'];
+}>;
+
+
+export type CreateComponentMutation = { createComponent: boolean };
+
 export type UpdateHeaderMutationVariables = Exact<{
   siteId: Scalars['Int']['input'];
   backgroundColor?: InputMaybe<Scalars['String']['input']>;
@@ -268,6 +286,39 @@ export type FindOneSiteByIdQueryVariables = Exact<{
 export type FindOneSiteByIdQuery = { findOneSiteById: { id: number, name: string, email: string, domain: string, components?: Array<{ id: number, componentType: ComponentType, name: string, title?: string | null, content?: string | null, backgroundType?: BackgroundType | null, background?: string | null, siteId: number, titleStyle?: { id: number, marginTop?: number | null, marginBottom?: number | null, marginRight?: number | null, marginLeft?: number | null, textSize?: number | null, textColor?: string | null, componentId: number } | null, contentStyle?: { id: number, marginTop?: number | null, marginBottom?: number | null, marginRight?: number | null, marginLeft?: number | null, textSize?: number | null, textColor?: string | null, componentId: number } | null }> | null, header?: { id: number, logo?: string | null, backgroundColor?: string | null, textSize?: number | null, textColor?: string | null, siteId: number } | null } };
 
 
+export const CreateComponentDocument = gql`
+    mutation CreateComponent($siteId: Int!, $componentType: ComponentType!, $name: String!) {
+  createComponent(siteId: $siteId, componentType: $componentType, name: $name)
+}
+    `;
+export type CreateComponentMutationFn = Apollo.MutationFunction<CreateComponentMutation, CreateComponentMutationVariables>;
+
+/**
+ * __useCreateComponentMutation__
+ *
+ * To run a mutation, you first call `useCreateComponentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateComponentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createComponentMutation, { data, loading, error }] = useCreateComponentMutation({
+ *   variables: {
+ *      siteId: // value for 'siteId'
+ *      componentType: // value for 'componentType'
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useCreateComponentMutation(baseOptions?: Apollo.MutationHookOptions<CreateComponentMutation, CreateComponentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateComponentMutation, CreateComponentMutationVariables>(CreateComponentDocument, options);
+      }
+export type CreateComponentMutationHookResult = ReturnType<typeof useCreateComponentMutation>;
+export type CreateComponentMutationResult = Apollo.MutationResult<CreateComponentMutation>;
+export type CreateComponentMutationOptions = Apollo.BaseMutationOptions<CreateComponentMutation, CreateComponentMutationVariables>;
 export const UpdateHeaderDocument = gql`
     mutation UpdateHeader($siteId: Int!, $backgroundColor: String, $textColor: String, $textSize: Int, $file: Upload) {
   updateHeader(

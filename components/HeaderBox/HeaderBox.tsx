@@ -93,7 +93,7 @@ export const HeaderBox = ({ siteId, data }: Props) => {
   return (
     <S.Container>
       <S.SectionName>
-        <p>헤더</p>
+        <p className="text-lg">헤더</p>
         {open ? (
           <ChevronUpIcon onClick={handleClick} className="size-6 cursor-pointer" />
         ) : (
@@ -102,6 +102,7 @@ export const HeaderBox = ({ siteId, data }: Props) => {
       </S.SectionName>
       {open && (
         <S.Detail>
+          <S.Item>헤더</S.Item>
           <S.ItemBox>
             <S.FontSetting>
               <p className="font-bold">텍스트 색상</p>
