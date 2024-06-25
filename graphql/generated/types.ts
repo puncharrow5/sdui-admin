@@ -26,12 +26,32 @@ export enum BackgroundType {
   Image = 'IMAGE'
 }
 
+/** 자식 컴포넌트 */
+export type ChildrenEntity = {
+  /** 컴포넌트 ID */
+  componentId: Scalars['Int']['output'];
+  /** 높이 */
+  height?: Maybe<Scalars['String']['output']>;
+  /** ID */
+  id: Scalars['Int']['output'];
+  /** 이미지 */
+  image?: Maybe<Scalars['String']['output']>;
+  /** 마진 */
+  margin?: Maybe<Scalars['String']['output']>;
+  /** 이름 */
+  name: Scalars['String']['output'];
+  /** 너비 */
+  width?: Maybe<Scalars['String']['output']>;
+};
+
 /** 컴포넌트 */
 export type ComponentEntity = {
   /** 배경 */
   background?: Maybe<Scalars['String']['output']>;
   /** 배경 종류 */
   backgroundType?: Maybe<BackgroundType>;
+  /** 자식 컴포넌트 목록 */
+  children?: Maybe<Array<ChildrenEntity>>;
   /** 컴포넌트 종류 */
   componentType: ComponentType;
   /** 내용 */
@@ -54,8 +74,6 @@ export type ComponentEntity = {
 
 /** 컴포넌트 종류 */
 export enum ComponentType {
-  /** 푸터 */
-  Footer = 'FOOTER',
   /** 문의 */
   Inquiry = 'INQUIRY',
   /** 팝업 */
@@ -99,6 +117,38 @@ export type ContentStyleInput = {
   textSize?: InputMaybe<Scalars['Int']['input']>;
 };
 
+/** 푸터 */
+export type FooterEntity = {
+  /** 배경 색상 */
+  backgroundColor?: Maybe<Scalars['String']['output']>;
+  /** 하단 내용 */
+  contentBottom?: Maybe<Scalars['String']['output']>;
+  /** 상단 내용 */
+  contentTop?: Maybe<Scalars['String']['output']>;
+  /** 푸터 타입 */
+  footerType: Scalars['Int']['output'];
+  /** 고객센터 */
+  helpCenter?: Maybe<Scalars['String']['output']>;
+  /** ID */
+  id: Scalars['Int']['output'];
+  /** 줄 높이 */
+  lineHeight?: Maybe<Scalars['Int']['output']>;
+  /** 로고 */
+  logo?: Maybe<Scalars['String']['output']>;
+  /** 하단 패딩 */
+  paddingBottom?: Maybe<Scalars['String']['output']>;
+  /** 상단 패딩 */
+  paddingTop?: Maybe<Scalars['String']['output']>;
+  /** 사이트 ID */
+  siteId: Scalars['Int']['output'];
+  /** 약관 */
+  terms?: Maybe<Scalars['String']['output']>;
+  /** 텍스트 색상 */
+  textColor?: Maybe<Scalars['String']['output']>;
+  /** 텍스트 크기 */
+  textSize?: Maybe<Scalars['Int']['output']>;
+};
+
 /** 헤더 */
 export type HeaderEntity = {
   /** 배경 색상 */
@@ -118,6 +168,8 @@ export type HeaderEntity = {
 export type Mutation = {
   /** 회원가입 */
   createAdmin: Scalars['Boolean']['output'];
+  /** 자식 컴포넌트 생성 */
+  createChildren: Scalars['Boolean']['output'];
   /** 컴포넌트 생성 */
   createComponent: Scalars['Boolean']['output'];
   /** 사이트 생성 */
@@ -128,7 +180,9 @@ export type Mutation = {
   login: Scalars['String']['output'];
   /** 컴포넌트 수정 */
   updateComponent: Scalars['Boolean']['output'];
-  /** 헤더 스타일 설정 */
+  /** 푸터 설정 */
+  updateFooter: Scalars['Boolean']['output'];
+  /** 헤더 설정 */
   updateHeader: Scalars['Boolean']['output'];
 };
 
@@ -136,6 +190,16 @@ export type Mutation = {
 export type MutationCreateAdminArgs = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
+};
+
+
+export type MutationCreateChildrenArgs = {
+  componentId: Scalars['Int']['input'];
+  height?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
+  margin?: InputMaybe<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
+  width?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -175,6 +239,23 @@ export type MutationUpdateComponentArgs = {
 };
 
 
+export type MutationUpdateFooterArgs = {
+  backgroundColor?: InputMaybe<Scalars['String']['input']>;
+  contentBottom?: InputMaybe<Scalars['String']['input']>;
+  contentTop?: InputMaybe<Scalars['String']['input']>;
+  file?: InputMaybe<Scalars['Upload']['input']>;
+  footerType: Scalars['Int']['input'];
+  helpCenter?: InputMaybe<Scalars['String']['input']>;
+  lineHeight?: InputMaybe<Scalars['Int']['input']>;
+  paddingBottom?: InputMaybe<Scalars['String']['input']>;
+  paddingTop?: InputMaybe<Scalars['String']['input']>;
+  siteId: Scalars['Int']['input'];
+  terms?: InputMaybe<Scalars['String']['input']>;
+  textColor?: InputMaybe<Scalars['String']['input']>;
+  textSize?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
 export type MutationUpdateHeaderArgs = {
   backgroundColor?: InputMaybe<Scalars['String']['input']>;
   file?: InputMaybe<Scalars['Upload']['input']>;
@@ -210,6 +291,8 @@ export type SiteEntity = {
   domain: Scalars['String']['output'];
   /** 사이트 이메일 */
   email: Scalars['String']['output'];
+  /** 푸터 */
+  footer?: Maybe<FooterEntity>;
   /** 헤더 */
   header?: Maybe<HeaderEntity>;
   /** ID */
@@ -262,6 +345,32 @@ export type CreateComponentMutationVariables = Exact<{
 
 export type CreateComponentMutation = { createComponent: boolean };
 
+export type DeleteComponentMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type DeleteComponentMutation = { deleteComponent: boolean };
+
+export type UpdateFooterMutationVariables = Exact<{
+  siteId: Scalars['Int']['input'];
+  footerType: Scalars['Int']['input'];
+  contentTop?: InputMaybe<Scalars['String']['input']>;
+  helpCenter?: InputMaybe<Scalars['String']['input']>;
+  terms?: InputMaybe<Scalars['String']['input']>;
+  contentBottom?: InputMaybe<Scalars['String']['input']>;
+  backgroundColor?: InputMaybe<Scalars['String']['input']>;
+  paddingTop?: InputMaybe<Scalars['String']['input']>;
+  paddingBottom?: InputMaybe<Scalars['String']['input']>;
+  textSize?: InputMaybe<Scalars['Int']['input']>;
+  textColor?: InputMaybe<Scalars['String']['input']>;
+  lineHeight?: InputMaybe<Scalars['Int']['input']>;
+  file?: InputMaybe<Scalars['Upload']['input']>;
+}>;
+
+
+export type UpdateFooterMutation = { updateFooter: boolean };
+
 export type UpdateHeaderMutationVariables = Exact<{
   siteId: Scalars['Int']['input'];
   backgroundColor?: InputMaybe<Scalars['String']['input']>;
@@ -283,7 +392,7 @@ export type FindOneSiteByIdQueryVariables = Exact<{
 }>;
 
 
-export type FindOneSiteByIdQuery = { findOneSiteById: { id: number, name: string, email: string, domain: string, components?: Array<{ id: number, componentType: ComponentType, name: string, title?: string | null, content?: string | null, backgroundType?: BackgroundType | null, background?: string | null, siteId: number, titleStyle?: { id: number, marginTop?: number | null, marginBottom?: number | null, marginRight?: number | null, marginLeft?: number | null, textSize?: number | null, textColor?: string | null, componentId: number } | null, contentStyle?: { id: number, marginTop?: number | null, marginBottom?: number | null, marginRight?: number | null, marginLeft?: number | null, textSize?: number | null, textColor?: string | null, componentId: number } | null }> | null, header?: { id: number, logo?: string | null, backgroundColor?: string | null, textSize?: number | null, textColor?: string | null, siteId: number } | null } };
+export type FindOneSiteByIdQuery = { findOneSiteById: { id: number, name: string, email: string, domain: string, components?: Array<{ id: number, componentType: ComponentType, name: string, title?: string | null, content?: string | null, backgroundType?: BackgroundType | null, background?: string | null, siteId: number, isDelete: boolean, titleStyle?: { id: number, marginTop?: number | null, marginBottom?: number | null, marginRight?: number | null, marginLeft?: number | null, textSize?: number | null, textColor?: string | null, componentId: number } | null, contentStyle?: { id: number, marginTop?: number | null, marginBottom?: number | null, marginRight?: number | null, marginLeft?: number | null, textSize?: number | null, textColor?: string | null, componentId: number } | null, children?: Array<{ id: number, name: string, image?: string | null, width?: string | null, height?: string | null, margin?: string | null, componentId: number }> | null }> | null, header?: { id: number, logo?: string | null, backgroundColor?: string | null, textSize?: number | null, textColor?: string | null, siteId: number } | null, footer?: { id: number, footerType: number, logo?: string | null, contentTop?: string | null, helpCenter?: string | null, terms?: string | null, contentBottom?: string | null, backgroundColor?: string | null, paddingTop?: string | null, paddingBottom?: string | null, textSize?: number | null, textColor?: string | null, lineHeight?: number | null, siteId: number } | null } };
 
 
 export const CreateComponentDocument = gql`
@@ -319,6 +428,94 @@ export function useCreateComponentMutation(baseOptions?: Apollo.MutationHookOpti
 export type CreateComponentMutationHookResult = ReturnType<typeof useCreateComponentMutation>;
 export type CreateComponentMutationResult = Apollo.MutationResult<CreateComponentMutation>;
 export type CreateComponentMutationOptions = Apollo.BaseMutationOptions<CreateComponentMutation, CreateComponentMutationVariables>;
+export const DeleteComponentDocument = gql`
+    mutation DeleteComponent($id: Int!) {
+  deleteComponent(id: $id)
+}
+    `;
+export type DeleteComponentMutationFn = Apollo.MutationFunction<DeleteComponentMutation, DeleteComponentMutationVariables>;
+
+/**
+ * __useDeleteComponentMutation__
+ *
+ * To run a mutation, you first call `useDeleteComponentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteComponentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteComponentMutation, { data, loading, error }] = useDeleteComponentMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteComponentMutation(baseOptions?: Apollo.MutationHookOptions<DeleteComponentMutation, DeleteComponentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteComponentMutation, DeleteComponentMutationVariables>(DeleteComponentDocument, options);
+      }
+export type DeleteComponentMutationHookResult = ReturnType<typeof useDeleteComponentMutation>;
+export type DeleteComponentMutationResult = Apollo.MutationResult<DeleteComponentMutation>;
+export type DeleteComponentMutationOptions = Apollo.BaseMutationOptions<DeleteComponentMutation, DeleteComponentMutationVariables>;
+export const UpdateFooterDocument = gql`
+    mutation UpdateFooter($siteId: Int!, $footerType: Int!, $contentTop: String, $helpCenter: String, $terms: String, $contentBottom: String, $backgroundColor: String, $paddingTop: String, $paddingBottom: String, $textSize: Int, $textColor: String, $lineHeight: Int, $file: Upload) {
+  updateFooter(
+    siteId: $siteId
+    footerType: $footerType
+    contentTop: $contentTop
+    helpCenter: $helpCenter
+    terms: $terms
+    contentBottom: $contentBottom
+    backgroundColor: $backgroundColor
+    paddingTop: $paddingTop
+    paddingBottom: $paddingBottom
+    textSize: $textSize
+    textColor: $textColor
+    lineHeight: $lineHeight
+    file: $file
+  )
+}
+    `;
+export type UpdateFooterMutationFn = Apollo.MutationFunction<UpdateFooterMutation, UpdateFooterMutationVariables>;
+
+/**
+ * __useUpdateFooterMutation__
+ *
+ * To run a mutation, you first call `useUpdateFooterMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateFooterMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateFooterMutation, { data, loading, error }] = useUpdateFooterMutation({
+ *   variables: {
+ *      siteId: // value for 'siteId'
+ *      footerType: // value for 'footerType'
+ *      contentTop: // value for 'contentTop'
+ *      helpCenter: // value for 'helpCenter'
+ *      terms: // value for 'terms'
+ *      contentBottom: // value for 'contentBottom'
+ *      backgroundColor: // value for 'backgroundColor'
+ *      paddingTop: // value for 'paddingTop'
+ *      paddingBottom: // value for 'paddingBottom'
+ *      textSize: // value for 'textSize'
+ *      textColor: // value for 'textColor'
+ *      lineHeight: // value for 'lineHeight'
+ *      file: // value for 'file'
+ *   },
+ * });
+ */
+export function useUpdateFooterMutation(baseOptions?: Apollo.MutationHookOptions<UpdateFooterMutation, UpdateFooterMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateFooterMutation, UpdateFooterMutationVariables>(UpdateFooterDocument, options);
+      }
+export type UpdateFooterMutationHookResult = ReturnType<typeof useUpdateFooterMutation>;
+export type UpdateFooterMutationResult = Apollo.MutationResult<UpdateFooterMutation>;
+export type UpdateFooterMutationOptions = Apollo.BaseMutationOptions<UpdateFooterMutation, UpdateFooterMutationVariables>;
 export const UpdateHeaderDocument = gql`
     mutation UpdateHeader($siteId: Int!, $backgroundColor: String, $textColor: String, $textSize: Int, $file: Upload) {
   updateHeader(
@@ -418,6 +615,7 @@ export const FindOneSiteByIdDocument = gql`
       backgroundType
       background
       siteId
+      isDelete
       titleStyle {
         id
         marginTop
@@ -438,6 +636,15 @@ export const FindOneSiteByIdDocument = gql`
         textColor
         componentId
       }
+      children {
+        id
+        name
+        image
+        width
+        height
+        margin
+        componentId
+      }
     }
     header {
       id
@@ -445,6 +652,22 @@ export const FindOneSiteByIdDocument = gql`
       backgroundColor
       textSize
       textColor
+      siteId
+    }
+    footer {
+      id
+      footerType
+      logo
+      contentTop
+      helpCenter
+      terms
+      contentBottom
+      backgroundColor
+      paddingTop
+      paddingBottom
+      textSize
+      textColor
+      lineHeight
       siteId
     }
   }

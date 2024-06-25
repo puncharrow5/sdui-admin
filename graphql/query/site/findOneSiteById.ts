@@ -16,6 +16,7 @@ export const FIND_ONE_SITE_BY_ID = gql`
         backgroundType
         background
         siteId
+        isDelete
         titleStyle {
           id
           marginTop
@@ -36,6 +37,15 @@ export const FIND_ONE_SITE_BY_ID = gql`
           textColor
           componentId
         }
+        children {
+          id
+          name
+          image
+          width
+          height
+          margin
+          componentId
+        }
       }
       header {
         id
@@ -43,6 +53,22 @@ export const FIND_ONE_SITE_BY_ID = gql`
         backgroundColor
         textSize
         textColor
+        siteId
+      }
+      footer {
+        id
+        footerType
+        logo
+        contentTop
+        helpCenter
+        terms
+        contentBottom
+        backgroundColor
+        paddingTop
+        paddingBottom
+        textSize
+        textColor
+        lineHeight
         siteId
       }
     }

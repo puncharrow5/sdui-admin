@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { useApolloClient } from "@apollo/client";
-import { BackgroundType, ComponentEntity } from "@/graphql/generated/types";
+import {
+  BackgroundType,
+  ComponentEntity,
+  FindOneSiteByIdDocument,
+  useDeleteComponentMutation,
+} from "@/graphql/generated/types";
 import { useFormik } from "formik";
 import { PanelButton } from "../PanelButton";
 import * as yup from "yup";
@@ -19,6 +24,17 @@ export const SectionBox = ({ data }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const [file, setFile] = useState<File>();
 
+  const [loadDeleteComponent, { loading }] = useDeleteComponentMutation({
+    onCompleted: () => {
+      client.refetchQueries({ include: [FindOneSiteByIdDocument] });
+
+      alert("컴포넌트가 삭제되었습니다.");
+    },
+    onError: (e) => {
+      alert(e.message ?? e);
+    },
+  });
+
   const handleClick = () => {
     setOpen(!open);
   };
@@ -29,12 +45,18 @@ export const SectionBox = ({ data }: Props) => {
     // });
   };
 
+  const handleDelete = () => {
+    loadDeleteComponent({
+      variables: {
+        id: data.id,
+      },
+    });
+  };
+
   const handleReset = () => {
     formik.resetForm();
     setFile(undefined);
   };
-
-  const handleDelete = () => {};
 
   const formik = useFormik({
     // validateOnChange: true,
@@ -70,7 +92,7 @@ export const SectionBox = ({ data }: Props) => {
             <S.Item>{getComponentType(data.componentType)}</S.Item>
             <TrashIcon onClick={handleDelete} className="size-6 cursor-pointer" />
           </S.ComponentType>
-          <S.ItemBox marginTop={5}>
+          <S.ItemBox>
             <p className="font-bold">이름</p>
             <S.Input
               value={formik.values.name}
@@ -78,7 +100,7 @@ export const SectionBox = ({ data }: Props) => {
               width="280px"
             />
           </S.ItemBox>
-          <S.ItemBox alignItems="center" marginTop={5} hasBorder>
+          <S.ItemBox alignItems="center" marginTop={10} hasBorder>
             <p className="font-bold">배경</p>
             <S.BackgroundArea>
               <S.Select
@@ -108,7 +130,7 @@ export const SectionBox = ({ data }: Props) => {
               width="280px"
             />
           </S.ItemBox>
-          <S.ItemBox marginTop={5} hasBorder>
+          <S.ItemBox marginTop={10} hasBorder>
             <S.FontSetting>
               <p className="font-bold">텍스트 색상</p>
               <S.Input
@@ -131,7 +153,7 @@ export const SectionBox = ({ data }: Props) => {
           </S.ItemBox>
 
           <S.Item marginTop={15}>부제목</S.Item>
-          <S.ItemBox marginTop={5} alignItems="flex-start">
+          <S.ItemBox marginTop={10} alignItems="flex-start">
             <p className="font-bold">텍스트</p>
             <S.Textarea
               value={formik.values.content ?? undefined}
@@ -139,7 +161,7 @@ export const SectionBox = ({ data }: Props) => {
               width="280px"
             />
           </S.ItemBox>
-          <S.ItemBox marginTop={5} hasBorder>
+          <S.ItemBox marginTop={10} hasBorder>
             <S.FontSetting>
               <p className="font-bold">텍스트 색상</p>
               <S.Input

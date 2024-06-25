@@ -1,8 +1,8 @@
 import { ApolloClient, InMemoryCache, createHttpLink, split } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import { getMainDefinition } from "@apollo/client/utilities";
-import Router from "next/router";
 import createUploadLink from "apollo-upload-client/createUploadLink.mjs";
+import Router from "next/router";
 
 // 인증 오류 처리
 const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
@@ -48,6 +48,12 @@ const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) 
 // HTTP
 const httpLink = createHttpLink({
   uri: "http://10.10.100.57:3000/graphql",
+  headers: {
+    "Apollo-Require-Preflight": "true",
+  },
+  fetchOptions: {
+    mode: "cors",
+  },
   credentials: "include",
 });
 
