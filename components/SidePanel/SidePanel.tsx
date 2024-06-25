@@ -5,6 +5,7 @@ import { SectionBox } from "../SectionBox";
 import { HeaderBox } from "../HeaderBox";
 import { SquaresPlusIcon } from "@heroicons/react/24/outline";
 import { CreateBox } from "../CreateBox";
+import { FooterBox } from "../FooterBox";
 
 interface Props {
   data?: SiteEntity;
@@ -58,6 +59,7 @@ export const SidePanel = ({ data }: Props) => {
         {sections.map((value: ComponentEntity, index: number) => (
           <SectionBox key={index} data={value} />
         ))}
+        <FooterBox siteId={data.id} data={data.footer} />
       </S.ComponentBox>
     </S.Container>
   );

@@ -3,6 +3,7 @@ import { ComponentEntity, ComponentType, SiteEntity } from "@/graphql/generated/
 import { Section } from "../Section";
 import { Header } from "../Header";
 import { Inquiry } from "../Inquiry";
+import { Footer } from "../Footer";
 import * as S from "./Container.style";
 
 interface Props {
@@ -37,20 +38,15 @@ export const Container = ({ data }: Props) => {
   if (!data) {
     return null;
   }
-
+  console.log(data);
   return (
     <S.Container>
-      <Header
-        sectionNames={sectionNames}
-        logo={data.header?.logo}
-        textSize={data.header?.textSize}
-        textColor={data.header?.textColor}
-        backgroundColor={data.header?.backgroundColor}
-      />
+      <Header sectionNames={sectionNames} data={data.header ?? undefined} />
       {sections.map((value: ComponentEntity, index: number) => (
         <Section key={index} id={value.name} data={value} />
       ))}
       {inquiry && <Inquiry id={inquiry.name} data={inquiry} siteEmail={data.email} />}
+      <Footer data={data.footer ?? undefined} />
     </S.Container>
   );
 };

@@ -71,7 +71,6 @@ export const CreateBox = ({ siteId, handleCloseCreateBox }: Props) => {
       <div className="flex justify-between mt-4 text-sm">
         <S.Select value={variables.componentType} onChange={handleChangeComponentType}>
           <option value={ComponentType.Section} label="섹션" />
-          <option value={ComponentType.Footer} label="푸터" />
           <option value={ComponentType.Popup} label="팝업" />
           <option value={ComponentType.Inquiry} label="문의" />
         </S.Select>

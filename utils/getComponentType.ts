@@ -8,7 +8,5 @@ export const getComponentType = (componentType: ComponentType) => {
       return "팝업";
     case ComponentType.Inquiry:
       return "문의";
-    case ComponentType.Footer:
-      return "푸터";
   }
 };
