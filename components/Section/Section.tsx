@@ -17,7 +17,7 @@ export const Section = ({ data, id }: Props) => {
       <S.Title titleStyle={data.titleStyle ?? undefined}>{data.title}</S.Title>
       <S.Content
         contentStyle={data.contentStyle ?? undefined}
-        dangerouslySetInnerHTML={{ __html: data.content as TrustedHTML }}
+        dangerouslySetInnerHTML={{ __html: data.content ?? "" }}
       />
     </div>
   );
