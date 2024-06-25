@@ -16,12 +16,6 @@ interface Props {
   data?: HeaderEntity | null;
 }
 
-type File = {
-  uri?: string;
-  type?: string;
-  name?: string;
-};
-
 const HeaderOptionSchema = yup.object().shape({
   textSize: yup.number(),
   textColor: yup.string(),
@@ -56,13 +50,7 @@ export const HeaderBox = ({ siteId, data }: Props) => {
     const selectedFile = e.target.files?.[0];
 
     if (selectedFile) {
-      const newFile: File = {
-        uri: URL.createObjectURL(selectedFile),
-        name: selectedFile.name,
-        type: selectedFile.type,
-      };
-
-      setFile(newFile);
+      setFile(selectedFile);
     }
   };
 
@@ -78,10 +66,10 @@ export const HeaderBox = ({ siteId, data }: Props) => {
   };
 
   const formik = useFormik({
+    validateOnChange: true,
+    validateOnMount: true,
+    validationSchema: HeaderOptionSchema,
     initialValues: {
-      validateOnChange: true,
-      validateOnMount: true,
-      validationSchema: HeaderOptionSchema,
       textColor: data?.textColor ?? undefined,
       textSize: data?.textSize ?? undefined,
       backgroundColor: data?.backgroundColor ?? undefined,
@@ -102,7 +90,6 @@ export const HeaderBox = ({ siteId, data }: Props) => {
       </S.SectionName>
       {open && (
         <S.Detail>
-          <S.Item>헤더</S.Item>
           <S.ItemBox>
             <S.FontSetting>
               <p className="font-bold">텍스트 색상</p>
