@@ -1,5 +1,5 @@
 import React from "react";
-import { ComponentEntity } from "@/graphql/generated/types";
+import { BackgroundType, ComponentEntity } from "@/graphql/generated/types";
 import * as S from "./Section.style";
 
 interface Props {
@@ -9,16 +9,26 @@ interface Props {
 
 export const Section = ({ data, id }: Props) => {
   return (
-    <div
+    <S.Container
       id={id}
-      className={`flex flex-col justify-center items-center text-center w-full min-h-[754px] h-full`}
-      style={{ backgroundColor: data.background ?? "#FFF" }}
+      style={
+        data.backgroundType === BackgroundType.Color
+          ? {
+              backgroundColor: data.background ?? "#FFF",
+            }
+          : data.backgroundType === BackgroundType.Image
+          ? {
+              backgroundImage:
+                `url(${process.env.NEXT_PUBLIC_BASE_URL}/file/${data.background})` ?? "none",
+            }
+          : undefined
+      }
     >
       <S.Title $titleStyle={data.titleStyle ?? undefined}>{data.title}</S.Title>
       <S.Content
         $contentStyle={data.contentStyle ?? undefined}
         dangerouslySetInnerHTML={{ __html: data.content ?? "" }}
       />
-    </div>
+    </S.Container>
   );
 };

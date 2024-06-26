@@ -1,6 +1,18 @@
 import { ContentStyleEntity, TitleStyleEntity } from "@/graphql/generated/types";
 import styled from "styled-components";
 
+export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  min-height: 754px;
+  background-size: cover;
+`;
+
 export const Title = styled.h1<{ $titleStyle?: TitleStyleEntity }>`
   font-weight: bold;
   margin: ${({ $titleStyle }) => $titleStyle?.margin ?? 0};

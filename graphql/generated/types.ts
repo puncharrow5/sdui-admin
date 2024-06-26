@@ -88,14 +88,10 @@ export type ContentStyleEntity = {
   componentId: Scalars['Int']['output'];
   /** ID */
   id: Scalars['Int']['output'];
-  /** 아래쪽 마진 */
-  marginBottom?: Maybe<Scalars['Int']['output']>;
-  /** 왼쪽 마진 */
-  marginLeft?: Maybe<Scalars['Int']['output']>;
-  /** 오른쪽 마진 */
-  marginRight?: Maybe<Scalars['Int']['output']>;
-  /** 위쪽 마진 */
-  marginTop?: Maybe<Scalars['Int']['output']>;
+  /** 줄 높이 */
+  lineHeight?: Maybe<Scalars['Int']['output']>;
+  /** 마진 */
+  margin?: Maybe<Scalars['String']['output']>;
   /** 텍스트 색상 */
   textColor?: Maybe<Scalars['String']['output']>;
   /** 텍스트 크기 */
@@ -103,14 +99,10 @@ export type ContentStyleEntity = {
 };
 
 export type ContentStyleInput = {
-  /** 아래쪽 마진 */
-  marginBottom?: InputMaybe<Scalars['Int']['input']>;
-  /** 왼쪽 마진 */
-  marginLeft?: InputMaybe<Scalars['Int']['input']>;
-  /** 오른쪽 마진 */
-  marginRight?: InputMaybe<Scalars['Int']['input']>;
-  /** 위쪽 마진 */
-  marginTop?: InputMaybe<Scalars['Int']['input']>;
+  /** 줄 높이 */
+  lineHeight?: InputMaybe<Scalars['Int']['input']>;
+  /** 마진 */
+  margin?: InputMaybe<Scalars['String']['input']>;
   /** 텍스트 색상 */
   textColor?: InputMaybe<Scalars['String']['input']>;
   /** 텍스트 크기 */
@@ -232,7 +224,9 @@ export type MutationUpdateComponentArgs = {
   backgroundType?: InputMaybe<BackgroundType>;
   content?: InputMaybe<Scalars['String']['input']>;
   contentStyle?: InputMaybe<ContentStyleInput>;
+  file?: InputMaybe<Scalars['Upload']['input']>;
   id: Scalars['Int']['input'];
+  name: Scalars['String']['input'];
   title?: InputMaybe<Scalars['String']['input']>;
   titleStyle?: InputMaybe<TitleStyleInput>;
 };
@@ -308,14 +302,10 @@ export type TitleStyleEntity = {
   componentId: Scalars['Float']['output'];
   /** ID */
   id: Scalars['Int']['output'];
-  /** 아래쪽 마진 */
-  marginBottom?: Maybe<Scalars['Int']['output']>;
-  /** 왼쪽 마진 */
-  marginLeft?: Maybe<Scalars['Int']['output']>;
-  /** 오른쪽 마진 */
-  marginRight?: Maybe<Scalars['Int']['output']>;
-  /** 위쪽 마진 */
-  marginTop?: Maybe<Scalars['Int']['output']>;
+  /** 줄 높이 */
+  lineHeight?: Maybe<Scalars['Int']['output']>;
+  /** 마진 */
+  margin?: Maybe<Scalars['String']['output']>;
   /** 텍스트 색상 */
   textColor?: Maybe<Scalars['String']['output']>;
   /** 텍스트 크기 */
@@ -323,14 +313,10 @@ export type TitleStyleEntity = {
 };
 
 export type TitleStyleInput = {
-  /** 아래쪽 마진 */
-  marginBottom?: InputMaybe<Scalars['Int']['input']>;
-  /** 왼쪽 마진 */
-  marginLeft?: InputMaybe<Scalars['Int']['input']>;
-  /** 오른쪽 마진 */
-  marginRight?: InputMaybe<Scalars['Int']['input']>;
-  /** 위쪽 마진 */
-  marginTop?: InputMaybe<Scalars['Int']['input']>;
+  /** 줄 높이 */
+  lineHeight?: InputMaybe<Scalars['Int']['input']>;
+  /** 마진 */
+  margin?: InputMaybe<Scalars['String']['input']>;
   /** 텍스트 색상 */
   textColor?: InputMaybe<Scalars['String']['input']>;
   /** 텍스트 크기 */
@@ -352,6 +338,21 @@ export type DeleteComponentMutationVariables = Exact<{
 
 
 export type DeleteComponentMutation = { deleteComponent: boolean };
+
+export type UpdateComponentMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
+  name: Scalars['String']['input'];
+  title?: InputMaybe<Scalars['String']['input']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  background?: InputMaybe<Scalars['String']['input']>;
+  backgroundType?: InputMaybe<BackgroundType>;
+  titleStyle?: InputMaybe<TitleStyleInput>;
+  contentStyle?: InputMaybe<ContentStyleInput>;
+  file?: InputMaybe<Scalars['Upload']['input']>;
+}>;
+
+
+export type UpdateComponentMutation = { updateComponent: boolean };
 
 export type UpdateFooterMutationVariables = Exact<{
   siteId: Scalars['Int']['input'];
@@ -395,7 +396,7 @@ export type FindOneSiteByIdQueryVariables = Exact<{
 }>;
 
 
-export type FindOneSiteByIdQuery = { findOneSiteById: { id: number, name: string, email: string, domain: string, components?: Array<{ id: number, componentType: ComponentType, name: string, title?: string | null, content?: string | null, backgroundType?: BackgroundType | null, background?: string | null, siteId: number, isDelete: boolean, titleStyle?: { id: number, marginTop?: number | null, marginBottom?: number | null, marginRight?: number | null, marginLeft?: number | null, textSize?: number | null, textColor?: string | null, componentId: number } | null, contentStyle?: { id: number, marginTop?: number | null, marginBottom?: number | null, marginRight?: number | null, marginLeft?: number | null, textSize?: number | null, textColor?: string | null, componentId: number } | null, children?: Array<{ id: number, name: string, image?: string | null, width?: string | null, height?: string | null, margin?: string | null, componentId: number }> | null }> | null, header?: { id: number, logo?: string | null, logoSize?: string | null, height?: number | null, backgroundColor?: string | null, textSize?: number | null, textColor?: string | null, siteId: number } | null, footer?: { id: number, footerType: number, logo?: string | null, contentTop?: string | null, helpCenter?: string | null, terms?: string | null, contentBottom?: string | null, backgroundColor?: string | null, paddingTop?: string | null, paddingBottom?: string | null, textSize?: number | null, textColor?: string | null, lineHeight?: number | null, siteId: number } | null } };
+export type FindOneSiteByIdQuery = { findOneSiteById: { id: number, name: string, email: string, domain: string, components?: Array<{ id: number, componentType: ComponentType, name: string, title?: string | null, content?: string | null, backgroundType?: BackgroundType | null, background?: string | null, siteId: number, isDelete: boolean, titleStyle?: { id: number, margin?: string | null, textSize?: number | null, textColor?: string | null, lineHeight?: number | null, componentId: number } | null, contentStyle?: { id: number, margin?: string | null, textSize?: number | null, textColor?: string | null, lineHeight?: number | null, componentId: number } | null, children?: Array<{ id: number, name: string, image?: string | null, width?: string | null, height?: string | null, margin?: string | null, componentId: number }> | null }> | null, header?: { id: number, logo?: string | null, logoSize?: string | null, height?: number | null, backgroundColor?: string | null, textSize?: number | null, textColor?: string | null, siteId: number } | null, footer?: { id: number, footerType: number, logo?: string | null, contentTop?: string | null, helpCenter?: string | null, terms?: string | null, contentBottom?: string | null, backgroundColor?: string | null, paddingTop?: string | null, paddingBottom?: string | null, textSize?: number | null, textColor?: string | null, lineHeight?: number | null, siteId: number } | null } };
 
 
 export const CreateComponentDocument = gql`
@@ -462,6 +463,55 @@ export function useDeleteComponentMutation(baseOptions?: Apollo.MutationHookOpti
 export type DeleteComponentMutationHookResult = ReturnType<typeof useDeleteComponentMutation>;
 export type DeleteComponentMutationResult = Apollo.MutationResult<DeleteComponentMutation>;
 export type DeleteComponentMutationOptions = Apollo.BaseMutationOptions<DeleteComponentMutation, DeleteComponentMutationVariables>;
+export const UpdateComponentDocument = gql`
+    mutation UpdateComponent($id: Int!, $name: String!, $title: String, $content: String, $background: String, $backgroundType: BackgroundType, $titleStyle: TitleStyleInput, $contentStyle: ContentStyleInput, $file: Upload) {
+  updateComponent(
+    id: $id
+    name: $name
+    title: $title
+    content: $content
+    background: $background
+    backgroundType: $backgroundType
+    titleStyle: $titleStyle
+    contentStyle: $contentStyle
+    file: $file
+  )
+}
+    `;
+export type UpdateComponentMutationFn = Apollo.MutationFunction<UpdateComponentMutation, UpdateComponentMutationVariables>;
+
+/**
+ * __useUpdateComponentMutation__
+ *
+ * To run a mutation, you first call `useUpdateComponentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateComponentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateComponentMutation, { data, loading, error }] = useUpdateComponentMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      name: // value for 'name'
+ *      title: // value for 'title'
+ *      content: // value for 'content'
+ *      background: // value for 'background'
+ *      backgroundType: // value for 'backgroundType'
+ *      titleStyle: // value for 'titleStyle'
+ *      contentStyle: // value for 'contentStyle'
+ *      file: // value for 'file'
+ *   },
+ * });
+ */
+export function useUpdateComponentMutation(baseOptions?: Apollo.MutationHookOptions<UpdateComponentMutation, UpdateComponentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateComponentMutation, UpdateComponentMutationVariables>(UpdateComponentDocument, options);
+      }
+export type UpdateComponentMutationHookResult = ReturnType<typeof useUpdateComponentMutation>;
+export type UpdateComponentMutationResult = Apollo.MutationResult<UpdateComponentMutation>;
+export type UpdateComponentMutationOptions = Apollo.BaseMutationOptions<UpdateComponentMutation, UpdateComponentMutationVariables>;
 export const UpdateFooterDocument = gql`
     mutation UpdateFooter($siteId: Int!, $footerType: Int!, $contentTop: String, $helpCenter: String, $terms: String, $contentBottom: String, $backgroundColor: String, $paddingTop: String, $paddingBottom: String, $textSize: Int, $textColor: String, $lineHeight: Int, $file: Upload) {
   updateFooter(
@@ -625,22 +675,18 @@ export const FindOneSiteByIdDocument = gql`
       isDelete
       titleStyle {
         id
-        marginTop
-        marginBottom
-        marginRight
-        marginLeft
+        margin
         textSize
         textColor
+        lineHeight
         componentId
       }
       contentStyle {
         id
-        marginTop
-        marginBottom
-        marginRight
-        marginLeft
+        margin
         textSize
         textColor
+        lineHeight
         componentId
       }
       children {

@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useApolloClient } from "@apollo/client";
 import {
   BackgroundType,
   ComponentEntity,
   FindOneSiteByIdDocument,
+  UpdateComponentMutationVariables,
   useDeleteComponentMutation,
+  useUpdateComponentMutation,
 } from "@/graphql/generated/types";
 import { useFormik } from "formik";
 import { PanelButton } from "../PanelButton";
@@ -24,7 +26,18 @@ export const SectionBox = ({ data }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const [file, setFile] = useState<File>();
 
-  const [loadDeleteComponent, { loading }] = useDeleteComponentMutation({
+  const [loadUpdateComponent, { loading: updateLoading }] = useUpdateComponentMutation({
+    onCompleted: () => {
+      client.refetchQueries({ include: [FindOneSiteByIdDocument] });
+
+      alert("컴포넌트가 수정되었습니다.");
+    },
+    onError: (e) => {
+      alert(e.message ?? e);
+    },
+  });
+
+  const [loadDeleteComponent, { loading: deleteLoading }] = useDeleteComponentMutation({
     onCompleted: () => {
       client.refetchQueries({ include: [FindOneSiteByIdDocument] });
 
@@ -39,10 +52,26 @@ export const SectionBox = ({ data }: Props) => {
     setOpen(!open);
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+
+    if (selectedFile) {
+      setFile(selectedFile);
+    }
+  };
+
+  const handleOpenUpload = () => {
+    document.getElementById("uploadBackground")?.click();
+  };
+
   const handleSubmit = () => {
-    // loadUpdateHeader({
-    //   variables: { ...formik.values, logoFile: file, siteId },
-    // });
+    loadUpdateComponent({
+      variables: {
+        ...formik.values,
+        ...(formik.values.backgroundType === BackgroundType.Image && { file }),
+        id: data.id,
+      },
+    });
   };
 
   const handleDelete = () => {
@@ -59,17 +88,22 @@ export const SectionBox = ({ data }: Props) => {
   };
 
   const formik = useFormik({
-    // validateOnChange: true,
-    // validateOnMount: true,
-    // validationSchema: HeaderOptionSchema,
     initialValues: {
       name: data.name,
       title: data?.title ?? undefined,
-      titleTextSize: data?.titleStyle?.textSize ?? undefined,
-      titleTextColor: data?.titleStyle?.textColor ?? undefined,
+      titleStyle: {
+        textSize: data?.titleStyle?.textSize ?? undefined,
+        textColor: data?.titleStyle?.textColor ?? undefined,
+        margin: data.titleStyle?.margin ?? undefined,
+        lineHeight: data.titleStyle?.lineHeight ?? undefined,
+      },
       content: data.content ?? undefined,
-      contentTextSize: data.contentStyle?.textSize ?? undefined,
-      contentTextColor: data?.contentStyle?.textColor ?? undefined,
+      contentStyle: {
+        textSize: data.contentStyle?.textSize ?? undefined,
+        textColor: data?.contentStyle?.textColor ?? undefined,
+        margin: data.contentStyle?.margin ?? undefined,
+        lineHeight: data.contentStyle?.lineHeight ?? undefined,
+      },
       background: data?.background ?? undefined,
       backgroundType: data?.backgroundType ?? undefined,
     },
@@ -111,13 +145,35 @@ export const SectionBox = ({ data }: Props) => {
                 <option value={BackgroundType.Color} label="색상" />
                 <option value={BackgroundType.Image} label="이미지" />
               </S.Select>
-              <S.Input
-                value={formik.values.background ?? undefined}
-                onChange={formik.handleChange("background")}
-                width="170px"
-                $textAlign="center"
-                placeholder="배경 타입"
-              />
+              {formik.values.backgroundType === BackgroundType.Color ? (
+                <S.Input
+                  value={formik.values.background ?? undefined}
+                  onChange={formik.handleChange("background")}
+                  width="170px"
+                  $textAlign="center"
+                />
+              ) : (
+                <>
+                  <input
+                    type="file"
+                    id="uploadBackground"
+                    className="hidden"
+                    onChange={handleFileChange}
+                  />
+                  <S.FileInput
+                    value={
+                      file
+                        ? file.name
+                        : data?.backgroundType === BackgroundType.Image && data?.background
+                        ? data?.background
+                        : undefined
+                    }
+                    onClick={handleOpenUpload}
+                    width="170px"
+                    readOnly
+                  />
+                </>
+              )}
             </S.BackgroundArea>
           </S.ItemBox>
 
@@ -130,12 +186,13 @@ export const SectionBox = ({ data }: Props) => {
               width="280px"
             />
           </S.ItemBox>
-          <S.ItemBox $marginTop={10} $hasBorder>
+          <S.ItemBox $marginTop={10}>
             <S.FontSetting>
               <p className="font-bold">텍스트 색상</p>
               <S.Input
-                value={formik.values.titleTextColor ?? undefined}
-                onChange={formik.handleChange("titleTextColor")}
+                name="titleStyle.textSize"
+                value={formik.values.titleStyle.textColor ?? undefined}
+                onChange={(e) => formik.setFieldValue("titleStyle.textColor", e.target.value)}
                 width="90px"
                 $textAlign="center"
               />
@@ -144,8 +201,36 @@ export const SectionBox = ({ data }: Props) => {
               <p className="font-bold">텍스트 크기</p>
               <S.Input
                 type="number"
-                value={formik.values.titleTextSize ?? undefined}
-                onChange={formik.handleChange("titleTextSize")}
+                name="titleStyle.textSize"
+                value={formik.values.titleStyle.textSize ?? undefined}
+                onChange={(e) =>
+                  formik.setFieldValue("titleStyle.textSize", parseInt(e.target.value))
+                }
+                width="90px"
+                $textAlign="center"
+              />
+            </S.FontSetting>
+          </S.ItemBox>
+          <S.ItemBox $marginTop={10} $hasBorder>
+            <S.FontSetting>
+              <p className="font-bold">마진</p>
+              <S.Input
+                name="titleStyle.margin"
+                value={formik.values.titleStyle.margin ?? undefined}
+                onChange={formik.handleChange("titleStyle.margin")}
+                placeholder="ex) 0 0 0 0"
+                width="90px"
+              />
+            </S.FontSetting>
+            <S.FontSetting>
+              <p className="font-bold">줄 높이</p>
+              <S.Input
+                type="number"
+                name="titleStyle.lineHeight"
+                value={formik.values.titleStyle.lineHeight ?? undefined}
+                onChange={(e) =>
+                  formik.setFieldValue("titleStyle.lineHeight", parseInt(e.target.value))
+                }
                 width="90px"
                 $textAlign="center"
               />
@@ -161,12 +246,13 @@ export const SectionBox = ({ data }: Props) => {
               width="280px"
             />
           </S.ItemBox>
-          <S.ItemBox $marginTop={10} $hasBorder>
+          <S.ItemBox $marginTop={10}>
             <S.FontSetting>
               <p className="font-bold">텍스트 색상</p>
               <S.Input
-                value={formik.values.contentTextColor ?? undefined}
-                onChange={formik.handleChange("contentTextColor")}
+                name="contentStyle.textColor"
+                value={formik.values.contentStyle.textColor ?? undefined}
+                onChange={(e) => formik.setFieldValue("contentStyle.textColor", e.target.value)}
                 width="90px"
                 $textAlign="center"
               />
@@ -175,8 +261,36 @@ export const SectionBox = ({ data }: Props) => {
               <p className="font-bold">텍스트 크기</p>
               <S.Input
                 type="number"
-                value={formik.values.contentTextSize ?? undefined}
-                onChange={formik.handleChange("contentTextSize")}
+                name="contentStyle.textSize"
+                value={formik.values.contentStyle.textSize ?? undefined}
+                onChange={(e) =>
+                  formik.setFieldValue("contentStyle.textSize", parseInt(e.target.value))
+                }
+                width="90px"
+                $textAlign="center"
+              />
+            </S.FontSetting>
+          </S.ItemBox>
+          <S.ItemBox $marginTop={10} $hasBorder>
+            <S.FontSetting>
+              <p className="font-bold">마진</p>
+              <S.Input
+                name="contentStyle.margin"
+                value={formik.values.contentStyle.margin ?? undefined}
+                onChange={formik.handleChange("contentStyle.margin")}
+                placeholder="ex) 0 0 0 0"
+                width="90px"
+              />
+            </S.FontSetting>
+            <S.FontSetting>
+              <p className="font-bold">줄 높이</p>
+              <S.Input
+                type="number"
+                name="contentStyle.lineHeight"
+                value={formik.values.contentStyle.lineHeight ?? undefined}
+                onChange={(e) =>
+                  formik.setFieldValue("contentStyle.lineHeight", parseInt(e.target.value))
+                }
                 width="90px"
                 $textAlign="center"
               />
