@@ -23,12 +23,18 @@ export const Header = ({ data, sectionNames }: Props) => {
           alt="로고 이미지"
         />
       ) : (
-        <div className="cursor-pointer">{data?.logo ?? "로고"}</div>
+        <p className="cursor-pointer">{data?.logo ?? "로고"}</p>
       )}
 
       <div className="flex gap-6 cursor-pointer">
         {sectionNames?.map((value: string, index: number) => (
-          <Link to={value} spy={true} smooth={true} offset={-80} key={index}>
+          <Link
+            key={index}
+            to={value}
+            spy={true}
+            smooth={true}
+            offset={data?.height ? -data?.height : -80}
+          >
             {value}
           </Link>
         ))}

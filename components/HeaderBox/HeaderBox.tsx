@@ -83,17 +83,13 @@ export const HeaderBox = ({ siteId, data }: Props) => {
   });
 
   return (
-    <S.Container>
+    <S.Container onClick={handleClick}>
       <S.SectionName>
         <p className="text-lg">헤더</p>
-        {open ? (
-          <ChevronUpIcon onClick={handleClick} className="size-6 cursor-pointer" />
-        ) : (
-          <ChevronDownIcon onClick={handleClick} className="size-6 cursor-pointer" />
-        )}
+        {open ? <ChevronUpIcon className="size-6" /> : <ChevronDownIcon className="size-6" />}
       </S.SectionName>
       {open && (
-        <S.Detail>
+        <S.Detail onClick={(e) => e.stopPropagation()}>
           <S.ItemBox>
             <S.FontSetting>
               <p className="font-bold">텍스트 색상</p>

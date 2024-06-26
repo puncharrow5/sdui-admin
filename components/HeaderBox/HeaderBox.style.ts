@@ -4,6 +4,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   border-bottom: 1px solid #e7e7ec;
+  cursor: pointer;
 `;
 
 export const Item = styled.div`
@@ -26,6 +27,7 @@ export const Detail = styled.div`
   background-color: #e7e7ec;
   font-size: 14px;
   gap: 10px;
+  cursor: default;
 `;
 
 export const ItemBox = styled.div`

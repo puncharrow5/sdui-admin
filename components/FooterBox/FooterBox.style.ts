@@ -4,6 +4,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   border-bottom: 1px solid #e7e7ec;
+  cursor: pointer;
 `;
 
 export const Item = styled.div`
@@ -26,20 +27,21 @@ export const Detail = styled.div`
   background-color: #e7e7ec;
   font-size: 14px;
   gap: 10px;
+  cursor: default;
 `;
 
 export const ItemBox = styled.div<{
-  alignItems?: "flex-start" | "center" | "flex-end";
-  marginTop?: number;
-  hasBorder?: boolean;
+  $alignItems?: "flex-start" | "center" | "flex-end";
+  $marginTop?: number;
+  $hasBorder?: boolean;
 }>`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: ${({ alignItems }) => alignItems ?? "center"};
-  margin-top: ${({ marginTop }) => marginTop ?? 0}px;
-  padding-bottom: ${({ hasBorder }) => (hasBorder ? 15 : null)}px;
-  border-bottom: ${({ hasBorder }) => (hasBorder ? "1px solid #d4d4d4" : null)};
+  align-items: ${({ $alignItems }) => $alignItems ?? "center"};
+  margin-top: ${({ $marginTop }) => $marginTop ?? 0}px;
+  padding-bottom: ${({ $hasBorder }) => ($hasBorder ? 15 : null)}px;
+  border-bottom: ${({ $hasBorder }) => ($hasBorder ? "1px solid #d4d4d4" : null)};
   gap: 20px;
 `;
 export const ButtonBox = styled.div`
@@ -57,12 +59,12 @@ export const FontSetting = styled.div`
   width: 50%;
 `;
 
-export const Input = styled.input<{ width?: string; textAlign?: "start" | "center" | "end" }>`
+export const Input = styled.input<{ width?: string; $textAlign?: "start" | "center" | "end" }>`
   display: flex;
   width: ${({ width }) => (width ? width : "100%")};
   padding: 3px 10px;
   border-radius: 5px;
-  text-align: ${({ textAlign }) => (textAlign ? textAlign : "start")};
+  text-align: ${({ $textAlign }) => ($textAlign ? $textAlign : "start")};
 `;
 
 export const Textarea = styled.textarea<{ width?: string }>`

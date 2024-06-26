@@ -100,17 +100,17 @@ export const FooterBox = ({ siteId, data }: Props) => {
   });
 
   return (
-    <S.Container>
+    <S.Container onClick={handleClick}>
       <S.SectionName>
         <p className="text-lg">푸터</p>
         {open ? (
-          <ChevronUpIcon onClick={handleClick} className="size-6 cursor-pointer" />
+          <ChevronUpIcon className="size-6 cursor-pointer" />
         ) : (
-          <ChevronDownIcon onClick={handleClick} className="size-6 cursor-pointer" />
+          <ChevronDownIcon className="size-6 cursor-pointer" />
         )}
       </S.SectionName>
       {open && (
-        <S.Detail>
+        <S.Detail onClick={(e) => e.stopPropagation()}>
           <S.ItemBox>
             <S.FontSetting>
               <p className="font-bold">헤더 타입</p>
@@ -153,7 +153,7 @@ export const FooterBox = ({ siteId, data }: Props) => {
               />
             </S.FontSetting>
           </S.ItemBox>
-          <S.ItemBox hasBorder>
+          <S.ItemBox $hasBorder>
             <S.FontSetting>
               <p className="font-bold">텍스트 색상</p>
               <S.Input
@@ -174,7 +174,7 @@ export const FooterBox = ({ siteId, data }: Props) => {
           </S.ItemBox>
 
           <S.Item>상단</S.Item>
-          <S.ItemBox marginTop={5} alignItems="flex-start">
+          <S.ItemBox $marginTop={5} $alignItems="flex-start">
             <p className="font-bold">패딩</p>
             <S.Input
               value={formik.values.paddingTop ?? undefined}
@@ -183,7 +183,7 @@ export const FooterBox = ({ siteId, data }: Props) => {
               width="280px"
             />
           </S.ItemBox>
-          <S.ItemBox marginTop={5} alignItems="flex-start">
+          <S.ItemBox $marginTop={5} $alignItems="flex-start">
             <p className="font-bold">텍스트</p>
             <S.Textarea
               value={formik.values.contentTop ?? undefined}
@@ -191,7 +191,7 @@ export const FooterBox = ({ siteId, data }: Props) => {
               width="280px"
             />
           </S.ItemBox>
-          <S.ItemBox marginTop={5} alignItems="flex-start">
+          <S.ItemBox $marginTop={5} $alignItems="flex-start">
             <p className="font-bold">고객센터</p>
             <S.Textarea
               value={formik.values.helpCenter ?? undefined}
@@ -199,7 +199,7 @@ export const FooterBox = ({ siteId, data }: Props) => {
               width="280px"
             />
           </S.ItemBox>
-          <S.ItemBox marginTop={5} alignItems="flex-start" hasBorder>
+          <S.ItemBox $marginTop={5} $alignItems="flex-start" $hasBorder>
             <p className="font-bold">약관</p>
             <S.Textarea
               value={formik.values.terms ?? undefined}
@@ -209,7 +209,7 @@ export const FooterBox = ({ siteId, data }: Props) => {
           </S.ItemBox>
 
           <S.Item>하단</S.Item>
-          <S.ItemBox marginTop={5} alignItems="flex-start">
+          <S.ItemBox $marginTop={5} $alignItems="flex-start">
             <p className="font-bold">패딩</p>
             <S.Input
               value={formik.values.paddingBottom ?? undefined}
@@ -218,7 +218,7 @@ export const FooterBox = ({ siteId, data }: Props) => {
               width="280px"
             />
           </S.ItemBox>
-          <S.ItemBox marginTop={5} alignItems="flex-start">
+          <S.ItemBox $marginTop={5} $alignItems="flex-start">
             <p className="font-bold">텍스트</p>
             <S.Textarea
               value={formik.values.contentBottom ?? undefined}

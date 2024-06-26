@@ -77,17 +77,17 @@ export const SectionBox = ({ data }: Props) => {
   });
 
   return (
-    <S.Container>
+    <S.Container onClick={handleClick}>
       <S.SectionName>
         <p>{data.name}</p>
         {open ? (
-          <ChevronUpIcon onClick={handleClick} className="size-6 cursor-pointer" />
+          <ChevronUpIcon className="size-6 cursor-pointer" />
         ) : (
-          <ChevronDownIcon onClick={handleClick} className="size-6 cursor-pointer" />
+          <ChevronDownIcon className="size-6 cursor-pointer" />
         )}
       </S.SectionName>
       {open && (
-        <S.Detail>
+        <S.Detail onClick={(e) => e.stopPropagation()}>
           <S.ComponentType>
             <S.Item>{getComponentType(data.componentType)}</S.Item>
             <TrashIcon onClick={handleDelete} className="size-6 cursor-pointer" />
@@ -100,7 +100,7 @@ export const SectionBox = ({ data }: Props) => {
               width="280px"
             />
           </S.ItemBox>
-          <S.ItemBox alignItems="center" marginTop={10} hasBorder>
+          <S.ItemBox $alignItems="center" $marginTop={10} $hasBorder>
             <p className="font-bold">배경</p>
             <S.BackgroundArea>
               <S.Select
@@ -115,14 +115,14 @@ export const SectionBox = ({ data }: Props) => {
                 value={formik.values.background ?? undefined}
                 onChange={formik.handleChange("background")}
                 width="170px"
-                textAlign="center"
+                $textAlign="center"
                 placeholder="배경 타입"
               />
             </S.BackgroundArea>
           </S.ItemBox>
 
-          <S.Item marginTop={15}>제목</S.Item>
-          <S.ItemBox marginTop={5}>
+          <S.Item $marginTop={15}>제목</S.Item>
+          <S.ItemBox $marginTop={5}>
             <p className="font-bold">텍스트</p>
             <S.Input
               value={formik.values.title ?? undefined}
@@ -130,14 +130,14 @@ export const SectionBox = ({ data }: Props) => {
               width="280px"
             />
           </S.ItemBox>
-          <S.ItemBox marginTop={10} hasBorder>
+          <S.ItemBox $marginTop={10} $hasBorder>
             <S.FontSetting>
               <p className="font-bold">텍스트 색상</p>
               <S.Input
                 value={formik.values.titleTextColor ?? undefined}
                 onChange={formik.handleChange("titleTextColor")}
                 width="90px"
-                textAlign="center"
+                $textAlign="center"
               />
             </S.FontSetting>
             <S.FontSetting>
@@ -147,13 +147,13 @@ export const SectionBox = ({ data }: Props) => {
                 value={formik.values.titleTextSize ?? undefined}
                 onChange={formik.handleChange("titleTextSize")}
                 width="90px"
-                textAlign="center"
+                $textAlign="center"
               />
             </S.FontSetting>
           </S.ItemBox>
 
-          <S.Item marginTop={15}>부제목</S.Item>
-          <S.ItemBox marginTop={10} alignItems="flex-start">
+          <S.Item $marginTop={15}>부제목</S.Item>
+          <S.ItemBox $marginTop={10} $alignItems="flex-start">
             <p className="font-bold">텍스트</p>
             <S.Textarea
               value={formik.values.content ?? undefined}
@@ -161,14 +161,14 @@ export const SectionBox = ({ data }: Props) => {
               width="280px"
             />
           </S.ItemBox>
-          <S.ItemBox marginTop={10} hasBorder>
+          <S.ItemBox $marginTop={10} $hasBorder>
             <S.FontSetting>
               <p className="font-bold">텍스트 색상</p>
               <S.Input
                 value={formik.values.contentTextColor ?? undefined}
                 onChange={formik.handleChange("contentTextColor")}
                 width="90px"
-                textAlign="center"
+                $textAlign="center"
               />
             </S.FontSetting>
             <S.FontSetting>
@@ -178,7 +178,7 @@ export const SectionBox = ({ data }: Props) => {
                 value={formik.values.contentTextSize ?? undefined}
                 onChange={formik.handleChange("contentTextSize")}
                 width="90px"
-                textAlign="center"
+                $textAlign="center"
               />
             </S.FontSetting>
           </S.ItemBox>

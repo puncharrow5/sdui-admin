@@ -25,4 +25,5 @@ export const Logo = styled.img<{
   $logoSize?: string | null;
 }>`
   height: ${({ $logoSize }) => $logoSize ?? "100%"};
+  cursor: pointer;
 `;
