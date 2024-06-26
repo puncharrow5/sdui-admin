@@ -19,12 +19,6 @@ const FooterOptionSchema = yup.object().shape({
   lineHeight: yup.number(),
 });
 
-type File = {
-  uri?: string;
-  type?: string;
-  name?: string;
-};
-
 interface Props {
   siteId: number;
   data?: FooterEntity | null;
@@ -58,13 +52,7 @@ export const FooterBox = ({ siteId, data }: Props) => {
     const selectedFile = e.target.files?.[0];
 
     if (selectedFile) {
-      const newFile: File = {
-        uri: URL.createObjectURL(selectedFile),
-        name: selectedFile.name,
-        type: selectedFile.type,
-      };
-
-      setFile(newFile);
+      setFile(selectedFile);
     }
   };
 
@@ -85,6 +73,7 @@ export const FooterBox = ({ siteId, data }: Props) => {
     validationSchema: FooterOptionSchema,
     initialValues: {
       footerType: data?.footerType ?? 1,
+      logo: data?.logo ?? undefined,
       contentTop: data?.contentTop ?? undefined,
       helpCenter: data?.helpCenter ?? undefined,
       terms: data?.terms ?? undefined,
@@ -113,7 +102,7 @@ export const FooterBox = ({ siteId, data }: Props) => {
         <S.Detail onClick={(e) => e.stopPropagation()}>
           <S.ItemBox>
             <S.FontSetting>
-              <p className="font-bold">헤더 타입</p>
+              <p className="font-bold">푸터 타입</p>
               <S.Select
                 width="90px"
                 value={formik.values.footerType}

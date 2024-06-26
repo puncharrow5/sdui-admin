@@ -46,9 +46,16 @@ export const Terms = styled.div`
 export const Top = styled.div<{ $paddingTop?: string | null }>`
   display: flex;
   flex-direction: row;
-  column-gap: 80px;
   padding: ${({ $paddingTop }) => $paddingTop ?? "40px"};
   border-bottom: 1px solid #e7e7ec;
+`;
+
+export const Grid = styled.div`
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: auto auto;
+  row-gap: 10px;
+  column-gap: 100px;
 `;
 
 export const Bottom = styled.div<{ $paddingBottom?: string | null }>`
@@ -60,10 +67,19 @@ export const Bottom = styled.div<{ $paddingBottom?: string | null }>`
 export const Item = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: start;
 `;
 
-export const Title = styled.p`
-  margin-bottom: 20px;
+export const Logo = styled.img<{
+  $logoSize?: string | null;
+}>`
+  height: 40px;
+  object-fit: contain;
+  cursor: pointer;
+`;
+
+export const Title = styled.h2`
+  align-self: center;
   font-size: 18px;
 `;
 

@@ -34,40 +34,47 @@ export const Footer = ({ data }: Props) => {
 
       <S.Container $backgrounColor={data?.backgroundColor}>
         <S.Top $paddingTop={data?.paddingTop}>
-          <S.Item>
-            <S.Title>로고</S.Title>
+          <S.Grid>
+            {data?.logo ? (
+              <S.Logo
+                src={`${process.env.NEXT_PUBLIC_BASE_URL}/file/${data.logo}`}
+                alt="로고 이미지"
+              />
+            ) : (
+              <S.Title className="cursor-pointer">{data?.logo ?? "로고"}</S.Title>
+            )}
             <S.Content
               dangerouslySetInnerHTML={{ __html: data?.contentTop ?? "" }}
               $textSize={data?.textSize}
               $textColor={data?.textColor}
             />
-          </S.Item>
 
-          {data?.helpCenter && (
-            <S.Item>
-              <S.Title>고객센터</S.Title>
-              <S.Content
-                dangerouslySetInnerHTML={{ __html: data?.helpCenter ?? "" }}
-                $textSize={data?.textSize}
-                $textColor={data?.textColor}
-                $lineHeight={data?.lineHeight}
-              />
-            </S.Item>
-          )}
+            {data?.helpCenter && (
+              <>
+                <S.Title>고객센터</S.Title>
+                <S.Content
+                  dangerouslySetInnerHTML={{ __html: data?.helpCenter ?? "" }}
+                  $textSize={data?.textSize}
+                  $textColor={data?.textColor}
+                  $lineHeight={data?.lineHeight}
+                />
+              </>
+            )}
 
-          {data?.terms && (
-            <S.Item>
-              <S.Title>약관</S.Title>
-              <S.Content
-                $textSize={data?.textSize}
-                $textColor={data?.textColor}
-                cursor="pointer"
-                onClick={handleOpenTerms}
-              >
-                서비스 이용약관
-              </S.Content>
-            </S.Item>
-          )}
+            {data?.terms && (
+              <>
+                <S.Title>약관</S.Title>
+                <S.Content
+                  $textSize={data?.textSize}
+                  $textColor={data?.textColor}
+                  cursor="pointer"
+                  onClick={handleOpenTerms}
+                >
+                  서비스 이용약관
+                </S.Content>
+              </>
+            )}
+          </S.Grid>
         </S.Top>
         <S.Bottom $paddingBottom={data?.paddingBottom}>
           <S.Content
