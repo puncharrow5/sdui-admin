@@ -38,7 +38,7 @@ export const Container = ({ data }: Props) => {
   if (!data) {
     return null;
   }
-  console.log(data);
+
   return (
     <S.Container>
       <Header sectionNames={sectionNames} data={data.header ?? undefined} />

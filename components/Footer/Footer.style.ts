@@ -1,14 +1,14 @@
 import styled from "styled-components";
 
 export const Container = styled.div<{
-  textSize?: number | null;
-  textColor?: string | null;
-  backgrounColor?: string | null;
+  $textSize?: number | null;
+  $textColor?: string | null;
+  $backgrounColor?: string | null;
 }>`
   display: flex;
   flex-direction: column;
-  color: ${({ textColor }) => textColor ?? "#000"};
-  background-color: ${({ backgrounColor }) => backgrounColor ?? "#FFF"};
+  color: ${({ $textColor }) => $textColor ?? "#000"};
+  background-color: ${({ $backgrounColor }) => $backgrounColor ?? "#FFF"};
 `;
 
 export const Backdrop = styled.div`
@@ -43,18 +43,18 @@ export const Terms = styled.div`
   }
 `;
 
-export const Top = styled.div<{ paddingTop?: string | null }>`
+export const Top = styled.div<{ $paddingTop?: string | null }>`
   display: flex;
   flex-direction: row;
   column-gap: 80px;
-  padding: ${({ paddingTop }) => paddingTop ?? "40px"};
+  padding: ${({ $paddingTop }) => $paddingTop ?? "40px"};
   border-bottom: 1px solid #e7e7ec;
 `;
 
-export const Bottom = styled.div<{ paddingBottom?: string | null }>`
+export const Bottom = styled.div<{ $paddingBottom?: string | null }>`
   display: flex;
   flex-direction: row;
-  padding: ${({ paddingBottom }) => paddingBottom ?? "40px"};
+  padding: ${({ $paddingBottom }) => $paddingBottom ?? "40px"};
 `;
 
 export const Item = styled.div`
@@ -68,13 +68,13 @@ export const Title = styled.p`
 `;
 
 export const Content = styled.div<{
-  textSize?: number | null;
-  textColor?: string | null;
-  lineHeight?: number | null;
+  $textSize?: number | null;
+  $textColor?: string | null;
+  $lineHeight?: number | null;
   cursor?: "default" | "pointer" | undefined;
 }>`
-  font-size: ${({ textSize }) => textSize ?? 14}px;
-  color: ${({ textColor }) => textColor ?? "#888888"};
-  line-height: ${({ lineHeight }) => lineHeight ?? 2.14};
+  font-size: ${({ $textSize }) => $textSize ?? 14}px;
+  color: ${({ $textColor }) => $textColor ?? "#888888"};
+  line-height: ${({ $lineHeight }) => $lineHeight ?? 2.14};
   cursor: ${({ cursor }) => cursor ?? "default"};
 `;

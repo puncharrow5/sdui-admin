@@ -11,9 +11,9 @@ interface Props {
 export const Header = ({ data, sectionNames }: Props) => {
   return (
     <S.Header
-      textSize={data?.textSize}
-      textColor={data?.textColor}
-      backgrounColor={data?.backgroundColor}
+      $textSize={data?.textSize}
+      $textColor={data?.textColor}
+      $backgrounColor={data?.backgroundColor}
     >
       <div className="cursor-pointer">{data?.logo ?? "로고"}</div>
 

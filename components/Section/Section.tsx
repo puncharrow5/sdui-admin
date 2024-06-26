@@ -14,9 +14,9 @@ export const Section = ({ data, id }: Props) => {
       className={`flex flex-col justify-center items-center text-center w-full min-h-[754px] h-full`}
       style={{ backgroundColor: data.background ?? "#FFF" }}
     >
-      <S.Title titleStyle={data.titleStyle ?? undefined}>{data.title}</S.Title>
+      <S.Title $titleStyle={data.titleStyle ?? undefined}>{data.title}</S.Title>
       <S.Content
-        contentStyle={data.contentStyle ?? undefined}
+        $contentStyle={data.contentStyle ?? undefined}
         dangerouslySetInnerHTML={{ __html: data.content ?? "" }}
       />
     </div>

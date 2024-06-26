@@ -32,14 +32,14 @@ export const Footer = ({ data }: Props) => {
         </S.Backdrop>
       )}
 
-      <S.Container backgrounColor={data?.backgroundColor}>
-        <S.Top paddingTop={data?.paddingTop}>
+      <S.Container $backgrounColor={data?.backgroundColor}>
+        <S.Top $paddingTop={data?.paddingTop}>
           <S.Item>
             <S.Title>로고</S.Title>
             <S.Content
               dangerouslySetInnerHTML={{ __html: data?.contentTop ?? "" }}
-              textSize={data?.textSize}
-              textColor={data?.textColor}
+              $textSize={data?.textSize}
+              $textColor={data?.textColor}
             />
           </S.Item>
 
@@ -48,9 +48,9 @@ export const Footer = ({ data }: Props) => {
               <S.Title>고객센터</S.Title>
               <S.Content
                 dangerouslySetInnerHTML={{ __html: data?.helpCenter ?? "" }}
-                textSize={data?.textSize}
-                textColor={data?.textColor}
-                lineHeight={data?.lineHeight}
+                $textSize={data?.textSize}
+                $textColor={data?.textColor}
+                $lineHeight={data?.lineHeight}
               />
             </S.Item>
           )}
@@ -59,8 +59,8 @@ export const Footer = ({ data }: Props) => {
             <S.Item>
               <S.Title>약관</S.Title>
               <S.Content
-                textSize={data?.textSize}
-                textColor={data?.textColor}
+                $textSize={data?.textSize}
+                $textColor={data?.textColor}
                 cursor="pointer"
                 onClick={handleOpenTerms}
               >
@@ -69,12 +69,12 @@ export const Footer = ({ data }: Props) => {
             </S.Item>
           )}
         </S.Top>
-        <S.Bottom paddingBottom={data?.paddingBottom}>
+        <S.Bottom $paddingBottom={data?.paddingBottom}>
           <S.Content
             dangerouslySetInnerHTML={{ __html: data?.contentBottom ?? "" }}
-            textSize={data?.textSize}
-            textColor={data?.textColor}
-            lineHeight={data?.lineHeight}
+            $textSize={data?.textSize}
+            $textColor={data?.textColor}
+            $lineHeight={data?.lineHeight}
           />
         </S.Bottom>
       </S.Container>
