@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { ComponentEntity } from "@/graphql/generated/types";
+import { BackgroundType, ComponentEntity } from "@/graphql/generated/types";
+import * as S from "./Inquiry.style";
 
 interface Props {
   id: string;
@@ -23,14 +24,32 @@ export const Inquiry = ({ id, data, siteEmail }: Props) => {
   };
 
   return (
-    <div id={id} className="flex justify-center w-full min-h-[754px] h-full">
-      <div className="flex items-center justify-center w-1/2"></div>
-      <div className="flex flex-col justify-start w-1/2 p-20 bg-[#F9F9F9]">
-        <h1>{data.title}</h1>
-        <div dangerouslySetInnerHTML={{ __html: data.content ?? "" }} />
+    <S.Container id={id}>
+      <S.InquiryImage
+        id={id}
+        style={
+          data.backgroundType === BackgroundType.Color
+            ? {
+                backgroundColor: data.background ?? "#FFF",
+              }
+            : data.backgroundType === BackgroundType.Image
+            ? {
+                backgroundImage:
+                  `url(${process.env.NEXT_PUBLIC_BASE_URL}/file/${data.background})` ?? "none",
+              }
+            : undefined
+        }
+      />
 
-        <div className="flex flex-col mt-10">
-          <label className="mb-2 text-[20px]">이메일</label>
+      <S.InquiryBox>
+        <S.Title $titleStyle={data.titleStyle ?? undefined}>{data.title}</S.Title>
+        <S.Content
+          $contentStyle={data.contentStyle ?? undefined}
+          dangerouslySetInnerHTML={{ __html: data.content ?? "" }}
+        />
+
+        <S.Form $textSize={data.contentStyle?.textSize ?? undefined}>
+          <label className="mb-2">이메일</label>
           <input
             value={emailForm.email}
             onChange={handleChange("email")}
@@ -38,7 +57,7 @@ export const Inquiry = ({ id, data, siteEmail }: Props) => {
             className="p-3 border rounded-md"
           />
 
-          <label className="mt-6 mb-2 text-[20px]">전화번호</label>
+          <label className="mt-6 mb-2">전화번호</label>
           <input
             value={emailForm.phoneNumber}
             onChange={handleChange("phoneNumber")}
@@ -46,7 +65,7 @@ export const Inquiry = ({ id, data, siteEmail }: Props) => {
             className="p-3 border rounded-md"
           />
 
-          <label className="mt-6 mb-2 text-[20px]">문의내용</label>
+          <label className="mt-6 mb-2">문의내용</label>
           <textarea
             value={emailForm.content}
             onChange={handleChange("content")}
@@ -55,8 +74,8 @@ export const Inquiry = ({ id, data, siteEmail }: Props) => {
           />
 
           <button className="mt-16 p-4 bg-blue-900 border rounded-full text-xl">문의하기</button>
-        </div>
-      </div>
-    </div>
+        </S.Form>
+      </S.InquiryBox>
+    </S.Container>
   );
 };

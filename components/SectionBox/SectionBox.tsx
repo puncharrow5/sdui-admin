@@ -113,7 +113,7 @@ export const SectionBox = ({ data }: Props) => {
   return (
     <S.Container onClick={handleClick}>
       <S.SectionName>
-        <p>{data.name}</p>
+        <p className="text-lg">{data.name}</p>
         {open ? (
           <ChevronUpIcon className="size-6 cursor-pointer" />
         ) : (

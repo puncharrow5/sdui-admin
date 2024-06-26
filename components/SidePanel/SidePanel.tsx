@@ -48,8 +48,8 @@ export const SidePanel = ({ data }: Props) => {
     <S.Container>
       <S.TitleBox>
         <div className="flex flex-col">
-          <p className="text-md font-bold">{data?.name}</p>
-          <p className="text-sm text-gray-500">{data?.domain}</p>
+          <p className="text-xl font-bold">{data?.name}</p>
+          <p className="text-md text-gray-500">{data?.domain}</p>
         </div>
         <SquaresPlusIcon onClick={handleClickCreateButton} className="size-8 cursor-pointer" />
       </S.TitleBox>
