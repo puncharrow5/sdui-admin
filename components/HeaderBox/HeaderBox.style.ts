@@ -54,7 +54,7 @@ export const FontSetting = styled.div`
 
 export const Input = styled.input<{ width?: string }>`
   display: flex;
-  width: ${({ width }) => (width ? width : "100%")};
+  width: ${({ width }) => width ?? "100%"};
   padding: 3px;
   border-radius: 5px;
   text-align: center;
@@ -62,8 +62,8 @@ export const Input = styled.input<{ width?: string }>`
 
 export const FileInput = styled.input<{ width?: string }>`
   display: flex;
-  width: ${({ width }) => (width ? width : "100%")};
-  padding: 3px;
+  width: ${({ width }) => width ?? "100%"};
+  padding: 3px 10px;
   border-radius: 5px;
   text-align: start;
   cursor: pointer;

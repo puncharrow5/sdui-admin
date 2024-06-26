@@ -19,22 +19,18 @@ export const FIND_ONE_SITE_BY_ID = gql`
         isDelete
         titleStyle {
           id
-          marginTop
-          marginBottom
-          marginRight
-          marginLeft
+          margin
           textSize
           textColor
+          lineHeight
           componentId
         }
         contentStyle {
           id
-          marginTop
-          marginBottom
-          marginRight
-          marginLeft
+          margin
           textSize
           textColor
+          lineHeight
           componentId
         }
         children {

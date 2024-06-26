@@ -68,23 +68,33 @@ export const FontSetting = styled.div`
 
 export const Input = styled.input<{ width?: string; $textAlign?: "start" | "center" | "end" }>`
   display: flex;
-  width: ${({ width }) => (width ? width : "100%")};
+  width: ${({ width }) => width ?? "100%"};
   padding: 3px 10px;
   border-radius: 5px;
-  text-align: ${({ $textAlign }) => ($textAlign ? $textAlign : "start")};
+  text-align: ${({ $textAlign }) => $textAlign ?? "start"};
 `;
 
 export const Select = styled.select<{ width?: string }>`
   display: flex;
-  width: ${({ width }) => (width ? width : "100%")};
+  width: ${({ width }) => width ?? "100%"};
   padding: 3px 10px;
   border-radius: 5px;
   text-align: center;
 `;
 
+export const FileInput = styled.input<{ width?: string }>`
+  display: flex;
+  width: ${({ width }) => width ?? "100%"};
+  padding: 3px 10px;
+  border-radius: 5px;
+  text-align: start;
+  cursor: pointer;
+  outline: none;
+`;
+
 export const Textarea = styled.textarea<{ width?: string }>`
   display: flex;
-  width: ${({ width }) => (width ? width : "100%")};
+  width: ${({ width }) => width ?? "100%"};
   min-height: 80px;
   padding: 3px 10px;
   border-radius: 5px;
