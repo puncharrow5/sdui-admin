@@ -153,10 +153,14 @@ export type FooterEntity = {
 export type HeaderEntity = {
   /** 배경 색상 */
   backgroundColor?: Maybe<Scalars['String']['output']>;
+  /** 헤더 높이 */
+  height?: Maybe<Scalars['Int']['output']>;
   /** ID */
   id: Scalars['Int']['output'];
   /** 로고 */
   logo?: Maybe<Scalars['String']['output']>;
+  /** 로고 사이즈 */
+  logoSize?: Maybe<Scalars['String']['output']>;
   /** 사이트 ID */
   siteId: Scalars['Int']['output'];
   /** 텍스트 색상 */
@@ -195,11 +199,6 @@ export type MutationCreateAdminArgs = {
 
 export type MutationCreateChildrenArgs = {
   componentId: Scalars['Int']['input'];
-  height?: InputMaybe<Scalars['String']['input']>;
-  image?: InputMaybe<Scalars['String']['input']>;
-  margin?: InputMaybe<Scalars['String']['input']>;
-  name: Scalars['String']['input'];
-  width?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -259,6 +258,8 @@ export type MutationUpdateFooterArgs = {
 export type MutationUpdateHeaderArgs = {
   backgroundColor?: InputMaybe<Scalars['String']['input']>;
   file?: InputMaybe<Scalars['Upload']['input']>;
+  height?: InputMaybe<Scalars['Int']['input']>;
+  logoSize?: InputMaybe<Scalars['String']['input']>;
   siteId: Scalars['Int']['input'];
   textColor?: InputMaybe<Scalars['String']['input']>;
   textSize?: InputMaybe<Scalars['Int']['input']>;
@@ -373,6 +374,8 @@ export type UpdateFooterMutation = { updateFooter: boolean };
 
 export type UpdateHeaderMutationVariables = Exact<{
   siteId: Scalars['Int']['input'];
+  logoSize?: InputMaybe<Scalars['String']['input']>;
+  height?: InputMaybe<Scalars['Int']['input']>;
   backgroundColor?: InputMaybe<Scalars['String']['input']>;
   textColor?: InputMaybe<Scalars['String']['input']>;
   textSize?: InputMaybe<Scalars['Int']['input']>;
@@ -392,7 +395,7 @@ export type FindOneSiteByIdQueryVariables = Exact<{
 }>;
 
 
-export type FindOneSiteByIdQuery = { findOneSiteById: { id: number, name: string, email: string, domain: string, components?: Array<{ id: number, componentType: ComponentType, name: string, title?: string | null, content?: string | null, backgroundType?: BackgroundType | null, background?: string | null, siteId: number, isDelete: boolean, titleStyle?: { id: number, marginTop?: number | null, marginBottom?: number | null, marginRight?: number | null, marginLeft?: number | null, textSize?: number | null, textColor?: string | null, componentId: number } | null, contentStyle?: { id: number, marginTop?: number | null, marginBottom?: number | null, marginRight?: number | null, marginLeft?: number | null, textSize?: number | null, textColor?: string | null, componentId: number } | null, children?: Array<{ id: number, name: string, image?: string | null, width?: string | null, height?: string | null, margin?: string | null, componentId: number }> | null }> | null, header?: { id: number, logo?: string | null, backgroundColor?: string | null, textSize?: number | null, textColor?: string | null, siteId: number } | null, footer?: { id: number, footerType: number, logo?: string | null, contentTop?: string | null, helpCenter?: string | null, terms?: string | null, contentBottom?: string | null, backgroundColor?: string | null, paddingTop?: string | null, paddingBottom?: string | null, textSize?: number | null, textColor?: string | null, lineHeight?: number | null, siteId: number } | null } };
+export type FindOneSiteByIdQuery = { findOneSiteById: { id: number, name: string, email: string, domain: string, components?: Array<{ id: number, componentType: ComponentType, name: string, title?: string | null, content?: string | null, backgroundType?: BackgroundType | null, background?: string | null, siteId: number, isDelete: boolean, titleStyle?: { id: number, marginTop?: number | null, marginBottom?: number | null, marginRight?: number | null, marginLeft?: number | null, textSize?: number | null, textColor?: string | null, componentId: number } | null, contentStyle?: { id: number, marginTop?: number | null, marginBottom?: number | null, marginRight?: number | null, marginLeft?: number | null, textSize?: number | null, textColor?: string | null, componentId: number } | null, children?: Array<{ id: number, name: string, image?: string | null, width?: string | null, height?: string | null, margin?: string | null, componentId: number }> | null }> | null, header?: { id: number, logo?: string | null, logoSize?: string | null, height?: number | null, backgroundColor?: string | null, textSize?: number | null, textColor?: string | null, siteId: number } | null, footer?: { id: number, footerType: number, logo?: string | null, contentTop?: string | null, helpCenter?: string | null, terms?: string | null, contentBottom?: string | null, backgroundColor?: string | null, paddingTop?: string | null, paddingBottom?: string | null, textSize?: number | null, textColor?: string | null, lineHeight?: number | null, siteId: number } | null } };
 
 
 export const CreateComponentDocument = gql`
@@ -517,9 +520,11 @@ export type UpdateFooterMutationHookResult = ReturnType<typeof useUpdateFooterMu
 export type UpdateFooterMutationResult = Apollo.MutationResult<UpdateFooterMutation>;
 export type UpdateFooterMutationOptions = Apollo.BaseMutationOptions<UpdateFooterMutation, UpdateFooterMutationVariables>;
 export const UpdateHeaderDocument = gql`
-    mutation UpdateHeader($siteId: Int!, $backgroundColor: String, $textColor: String, $textSize: Int, $file: Upload) {
+    mutation UpdateHeader($siteId: Int!, $logoSize: String, $height: Int, $backgroundColor: String, $textColor: String, $textSize: Int, $file: Upload) {
   updateHeader(
     siteId: $siteId
+    logoSize: $logoSize
+    height: $height
     backgroundColor: $backgroundColor
     textColor: $textColor
     textSize: $textSize
@@ -543,6 +548,8 @@ export type UpdateHeaderMutationFn = Apollo.MutationFunction<UpdateHeaderMutatio
  * const [updateHeaderMutation, { data, loading, error }] = useUpdateHeaderMutation({
  *   variables: {
  *      siteId: // value for 'siteId'
+ *      logoSize: // value for 'logoSize'
+ *      height: // value for 'height'
  *      backgroundColor: // value for 'backgroundColor'
  *      textColor: // value for 'textColor'
  *      textSize: // value for 'textSize'
@@ -649,6 +656,8 @@ export const FindOneSiteByIdDocument = gql`
     header {
       id
       logo
+      logoSize
+      height
       backgroundColor
       textSize
       textColor

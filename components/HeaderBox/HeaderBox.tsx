@@ -17,9 +17,11 @@ interface Props {
 }
 
 const HeaderOptionSchema = yup.object().shape({
+  logoSie: yup.string(),
+  height: yup.number(),
+  backgroundColor: yup.string(),
   textSize: yup.number(),
   textColor: yup.string(),
-  backgroundColor: yup.string(),
 });
 
 export const HeaderBox = ({ siteId, data }: Props) => {
@@ -70,10 +72,12 @@ export const HeaderBox = ({ siteId, data }: Props) => {
     validateOnMount: true,
     validationSchema: HeaderOptionSchema,
     initialValues: {
+      logo: data?.logo ?? undefined,
+      logoSize: data?.logoSize ?? undefined,
+      height: data?.height ?? undefined,
+      backgroundColor: data?.backgroundColor ?? undefined,
       textColor: data?.textColor ?? undefined,
       textSize: data?.textSize ?? undefined,
-      backgroundColor: data?.backgroundColor ?? undefined,
-      logo: data?.logo ?? undefined,
     },
     onSubmit: handleSubmit,
   });
@@ -109,6 +113,7 @@ export const HeaderBox = ({ siteId, data }: Props) => {
               />
             </S.FontSetting>
           </S.ItemBox>
+
           <S.ItemBox>
             <S.FontSetting>
               <p className="font-bold">헤더 색상</p>
@@ -119,6 +124,18 @@ export const HeaderBox = ({ siteId, data }: Props) => {
               />
             </S.FontSetting>
             <S.FontSetting>
+              <p className="font-bold">헤더 높이</p>
+              <S.Input
+                type="number"
+                value={formik.values.height ?? undefined}
+                onChange={formik.handleChange("height")}
+                width="90px"
+              />
+            </S.FontSetting>
+          </S.ItemBox>
+
+          <S.ItemBox>
+            <S.FontSetting>
               <p className="font-bold">로고 이미지</p>
               <input type="file" id="uploadLogo" className="hidden" onChange={handleFileChange} />
               <S.FileInput
@@ -126,6 +143,14 @@ export const HeaderBox = ({ siteId, data }: Props) => {
                 onClick={handleOpenUpload}
                 width="90px"
                 readOnly
+              />
+            </S.FontSetting>
+            <S.FontSetting>
+              <p className="font-bold">이미지 크기</p>
+              <S.Input
+                value={formik.values.logoSize ?? undefined}
+                onChange={formik.handleChange("logoSize")}
+                width="90px"
               />
             </S.FontSetting>
           </S.ItemBox>

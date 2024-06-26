@@ -11,11 +11,20 @@ interface Props {
 export const Header = ({ data, sectionNames }: Props) => {
   return (
     <S.Header
+      $height={data?.height}
       $textSize={data?.textSize}
       $textColor={data?.textColor}
       $backgrounColor={data?.backgroundColor}
     >
-      <div className="cursor-pointer">{data?.logo ?? "로고"}</div>
+      {data?.logo ? (
+        <S.Logo
+          src={`${process.env.NEXT_PUBLIC_BASE_URL}/file/${data.logo}`}
+          $logoSize={data?.logoSize}
+          alt="로고 이미지"
+        />
+      ) : (
+        <div className="cursor-pointer">{data?.logo ?? "로고"}</div>
+      )}
 
       <div className="flex gap-6 cursor-pointer">
         {sectionNames?.map((value: string, index: number) => (

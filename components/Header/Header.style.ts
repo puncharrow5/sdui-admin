@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const Header = styled.div<{
+  $height?: number | null;
   $textSize?: number | null;
   $textColor?: string | null;
   $backgrounColor?: string | null;
@@ -9,8 +10,8 @@ export const Header = styled.div<{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 80px;
   width: calc(100% - 400px);
+  height: ${({ $height }) => $height ?? 80}px;
   top: 0;
   padding: 0 40px;
   font-size: ${({ $textSize }) => $textSize ?? 20}px;
@@ -18,4 +19,10 @@ export const Header = styled.div<{
   color: ${({ $textColor }) => $textColor ?? "#000"};
   background-color: ${({ $backgrounColor }) => $backgrounColor ?? "transparent"};
   border-bottom: 2px solid #e7e7ec;
+`;
+
+export const Logo = styled.img<{
+  $logoSize?: string | null;
+}>`
+  height: ${({ $logoSize }) => $logoSize ?? "100%"};
 `;

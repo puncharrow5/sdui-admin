@@ -10,7 +10,7 @@ interface Props {
 
 export const PanelButton = ({ text, textColor, color, onClick }: Props) => {
   return (
-    <S.Button color={color} textColor={textColor} onClick={onClick}>
+    <S.Button $color={color} $textColor={textColor} onClick={onClick}>
       {text}
     </S.Button>
   );

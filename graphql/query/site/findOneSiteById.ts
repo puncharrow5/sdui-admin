@@ -50,6 +50,8 @@ export const FIND_ONE_SITE_BY_ID = gql`
       header {
         id
         logo
+        logoSize
+        height
         backgroundColor
         textSize
         textColor
