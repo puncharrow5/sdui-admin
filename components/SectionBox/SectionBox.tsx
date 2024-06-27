@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { useApolloClient } from "@apollo/client";
 import {
   BackgroundType,
+  ChildEntity,
   ComponentEntity,
   FindOneSiteByIdDocument,
-  useCreateChildrenMutation,
+  useCreateChildMutation,
   useDeleteComponentMutation,
   useUpdateComponentMutation,
 } from "@/graphql/generated/types";
@@ -16,6 +17,7 @@ import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { getComponentType } from "@/utils";
 import { useToastMessage } from "@/hooks";
+import { ChildForm } from "../ChildForm";
 
 interface Props {
   data: ComponentEntity;
@@ -50,7 +52,7 @@ export const SectionBox = ({ data }: Props) => {
     },
   });
 
-  const [loadCreateChildren, { loading: createLoading }] = useCreateChildrenMutation({
+  const [loadCreateChild, { loading: createLoading }] = useCreateChildMutation({
     onCompleted: () => {
       client.refetchQueries({ include: [FindOneSiteByIdDocument] });
 
@@ -100,8 +102,8 @@ export const SectionBox = ({ data }: Props) => {
     setFile(undefined);
   };
 
-  const handleCreateChildren = () => {
-    loadCreateChildren({
+  const handleCreateChild = () => {
+    loadCreateChild({
       variables: {
         componentId: data.id,
       },
@@ -338,7 +340,7 @@ export const SectionBox = ({ data }: Props) => {
               />
             </S.FontSetting>
           </S.ItemBox>
-          <S.ItemBox $marginTop={10} $hasBorder>
+          <S.ItemBox $marginTop={10}>
             <S.FontSetting>
               <p className="font-bold">마진</p>
               <S.Input
@@ -370,7 +372,7 @@ export const SectionBox = ({ data }: Props) => {
                 text="+ 컴포넌트"
                 color="#E9455A"
                 textColor="#fff"
-                onClick={handleCreateChildren}
+                onClick={handleCreateChild}
               />
             </S.SubmitButton>
             <S.SubmitButton>
@@ -378,6 +380,11 @@ export const SectionBox = ({ data }: Props) => {
               <PanelButton text="수정" color="#000" textColor="#fff" onClick={handleSubmit} />
             </S.SubmitButton>
           </S.ButtonBox>
+
+          {data.children &&
+            data.children.map((value: ChildEntity, index: number) => (
+              <ChildForm key={index} data={value} index={index} />
+            ))}
         </S.Detail>
       )}
     </S.Container>

@@ -1,1 +1,2 @@
-export * from "./createChildren";
+export * from "./createChild";
+export * from "./deleteChild";

@@ -42,7 +42,6 @@ export const FIND_ONE_SITE_BY_ID = gql`
         }
         children {
           id
-          name
           image
           width
           height

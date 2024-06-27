@@ -3,8 +3,8 @@ import styled from "styled-components";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  border-bottom: 1px solid #e7e7ec;
-  cursor: pointer;
+  margin-top: 20px;
+  border-top: 1px solid #d4d4d4;
 `;
 
 export const SectionName = styled.div`
@@ -48,13 +48,14 @@ export const ComponentType = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 15px;
   margin-bottom: 10px;
 `;
 
 export const ButtonBox = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: end;
   margin-top: 30px;
 `;
 
