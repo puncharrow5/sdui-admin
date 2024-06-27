@@ -10,6 +10,7 @@ import { PanelButton } from "../PanelButton";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
 import * as yup from "yup";
 import * as S from "./HeaderBox.style";
+import { useToastMessage } from "@/hooks";
 
 interface Props {
   siteId: number;
@@ -26,6 +27,7 @@ const HeaderOptionSchema = yup.object().shape({
 
 export const HeaderBox = ({ siteId, data }: Props) => {
   const client = useApolloClient();
+  const { ToastMessage } = useToastMessage();
 
   const [open, setOpen] = useState<boolean>(false);
   const [file, setFile] = useState<File>();
@@ -33,10 +35,11 @@ export const HeaderBox = ({ siteId, data }: Props) => {
   const [loadUpdateHeader, { loading }] = useUpdateHeaderMutation({
     onCompleted: () => {
       client.refetchQueries({ include: [FindOneSiteByIdDocument] });
-      alert("헤더가 수정되었습니다.");
+
+      ToastMessage("info", "헤더가 수정되었습니다.");
     },
     onError: (e) => {
-      alert(e.message ?? e);
+      ToastMessage("error", `${e.message ?? e}`);
     },
   });
 

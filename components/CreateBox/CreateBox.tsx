@@ -9,6 +9,7 @@ import {
 } from "@/graphql/generated/types";
 import client from "@/config/client";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import { useToastMessage } from "@/hooks";
 
 interface Props {
   siteId: number;
@@ -16,6 +17,8 @@ interface Props {
 }
 
 export const CreateBox = ({ siteId, handleCloseCreateBox }: Props) => {
+  const { ToastMessage } = useToastMessage();
+
   const [variables, setVariables] = useState<CreateComponentMutationVariables>({
     siteId,
     componentType: ComponentType.Section,
@@ -26,7 +29,7 @@ export const CreateBox = ({ siteId, handleCloseCreateBox }: Props) => {
     onCompleted: () => {
       client.refetchQueries({ include: [FindOneSiteByIdDocument] });
 
-      alert("컴포넌트가 생성되었습니다.");
+      ToastMessage("info", "컴포넌트가 생성되었습니다.");
 
       setVariables({
         siteId,
@@ -35,7 +38,7 @@ export const CreateBox = ({ siteId, handleCloseCreateBox }: Props) => {
       });
     },
     onError: (e) => {
-      alert(e.message ?? e);
+      ToastMessage("error", `${e.message ?? e}`);
     },
   });
 
@@ -55,7 +58,7 @@ export const CreateBox = ({ siteId, handleCloseCreateBox }: Props) => {
 
   const handleSubmit = () => {
     if (!variables.name) {
-      return alert("컴포넌트 이름을 입력해주세요.");
+      return ToastMessage("error", "컴포넌트 이름을 입력해주세요.");
     }
 
     loadCreateComponent({ variables });

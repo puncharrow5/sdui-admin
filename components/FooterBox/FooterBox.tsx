@@ -10,6 +10,7 @@ import { PanelButton } from "../PanelButton";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
 import * as yup from "yup";
 import * as S from "./FooterBox.style";
+import { useToastMessage } from "@/hooks";
 
 const FooterOptionSchema = yup.object().shape({
   footerType: yup.number(),
@@ -26,6 +27,7 @@ interface Props {
 
 export const FooterBox = ({ siteId, data }: Props) => {
   const client = useApolloClient();
+  const { ToastMessage } = useToastMessage();
 
   const [open, setOpen] = useState<boolean>(false);
   const [file, setFile] = useState<File>();
@@ -33,10 +35,11 @@ export const FooterBox = ({ siteId, data }: Props) => {
   const [loadUpdateFooter, { loading }] = useUpdateFooterMutation({
     onCompleted: () => {
       client.refetchQueries({ include: [FindOneSiteByIdDocument] });
-      alert("푸터가 수정되었습니다.");
+
+      ToastMessage("info", "푸터가 수정되었습니다.");
     },
     onError: (e) => {
-      alert(e.message ?? e);
+      ToastMessage("error", `${e.message ?? e}`);
     },
   });
 
