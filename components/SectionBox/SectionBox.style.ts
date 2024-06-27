@@ -54,8 +54,13 @@ export const ComponentType = styled.div`
 export const ButtonBox = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-top: 20px;
+`;
+
+export const SubmitButton = styled.div`
+  display: flex;
+  flex-direction: row;
   gap: 10px;
 `;
 

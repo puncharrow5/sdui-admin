@@ -1,15 +1,15 @@
-import { ContentStyleEntity, TitleStyleEntity } from "@/graphql/generated/types";
 import styled from "styled-components";
+import { ContentStyleEntity, TitleStyleEntity } from "@/graphql/generated/types";
 
-export const Container = styled.div`
+export const Container = styled.div<{ $height?: string; $padding?: string }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
   width: 100%;
-  height: 100%;
-  min-height: 754px;
+  height: ${({ $height }) => $height ?? "754px"};
+  padding: ${({ $padding }) => $padding ?? "0"};
   background-size: cover;
 `;
 

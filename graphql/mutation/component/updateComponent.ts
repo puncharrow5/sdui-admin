@@ -6,8 +6,7 @@ export const UPDATE_COMPONENT = gql`
     $name: String!
     $title: String
     $content: String
-    $background: String
-    $backgroundType: BackgroundType
+    $componentStyle: ComponentStyleInput
     $titleStyle: TitleStyleInput
     $contentStyle: ContentStyleInput
     $file: Upload
@@ -17,8 +16,7 @@ export const UPDATE_COMPONENT = gql`
       name: $name
       title: $title
       content: $content
-      background: $background
-      backgroundType: $backgroundType
+      componentStyle: $componentStyle
       titleStyle: $titleStyle
       contentStyle: $contentStyle
       file: $file

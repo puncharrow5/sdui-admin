@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useApolloClient } from "@apollo/client";
 import {
   BackgroundType,
   ComponentEntity,
   FindOneSiteByIdDocument,
-  UpdateComponentMutationVariables,
+  useCreateChildrenMutation,
   useDeleteComponentMutation,
   useUpdateComponentMutation,
 } from "@/graphql/generated/types";
@@ -15,6 +15,7 @@ import * as S from "./SectionBox.style";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { getComponentType } from "@/utils";
+import { useToastMessage } from "@/hooks";
 
 interface Props {
   data: ComponentEntity;
@@ -22,6 +23,7 @@ interface Props {
 
 export const SectionBox = ({ data }: Props) => {
   const client = useApolloClient();
+  const { ToastMessage } = useToastMessage();
 
   const [open, setOpen] = useState<boolean>(false);
   const [file, setFile] = useState<File>();
@@ -30,10 +32,10 @@ export const SectionBox = ({ data }: Props) => {
     onCompleted: () => {
       client.refetchQueries({ include: [FindOneSiteByIdDocument] });
 
-      alert("컴포넌트가 수정되었습니다.");
+      ToastMessage("info", "컴포넌트가 수정되었습니다.");
     },
     onError: (e) => {
-      alert(e.message ?? e);
+      ToastMessage("error", `${e.message ?? e}`);
     },
   });
 
@@ -41,10 +43,21 @@ export const SectionBox = ({ data }: Props) => {
     onCompleted: () => {
       client.refetchQueries({ include: [FindOneSiteByIdDocument] });
 
-      alert("컴포넌트가 삭제되었습니다.");
+      ToastMessage("info", "컴포넌트가 삭제되었습니다.");
     },
     onError: (e) => {
-      alert(e.message ?? e);
+      ToastMessage("error", `${e.message ?? e}`);
+    },
+  });
+
+  const [loadCreateChildren, { loading: createLoading }] = useCreateChildrenMutation({
+    onCompleted: () => {
+      client.refetchQueries({ include: [FindOneSiteByIdDocument] });
+
+      ToastMessage("info", "자식 컴포넌트가 추가되었습니다.");
+    },
+    onError: (e) => {
+      ToastMessage("error", `${e.message ?? e}`);
     },
   });
 
@@ -68,7 +81,7 @@ export const SectionBox = ({ data }: Props) => {
     loadUpdateComponent({
       variables: {
         ...formik.values,
-        ...(formik.values.backgroundType === BackgroundType.Image && { file }),
+        ...(formik.values.componentStyle.backgroundType === BackgroundType.Image && { file }),
         id: data.id,
       },
     });
@@ -87,10 +100,25 @@ export const SectionBox = ({ data }: Props) => {
     setFile(undefined);
   };
 
+  const handleCreateChildren = () => {
+    loadCreateChildren({
+      variables: {
+        componentId: data.id,
+      },
+    });
+  };
+
   const formik = useFormik({
     initialValues: {
       name: data.name,
       title: data?.title ?? undefined,
+      componentStyle: {
+        height: data.componentStyle?.height ?? undefined,
+        padding: data.componentStyle?.padding ?? undefined,
+        gap: data.componentStyle?.gap ?? undefined,
+        background: data?.componentStyle?.background ?? undefined,
+        backgroundType: data?.componentStyle?.backgroundType ?? BackgroundType.Color,
+      },
       titleStyle: {
         textSize: data?.titleStyle?.textSize ?? undefined,
         textColor: data?.titleStyle?.textColor ?? undefined,
@@ -104,8 +132,6 @@ export const SectionBox = ({ data }: Props) => {
         margin: data.contentStyle?.margin ?? undefined,
         lineHeight: data.contentStyle?.lineHeight ?? undefined,
       },
-      background: data?.background ?? undefined,
-      backgroundType: data?.backgroundType ?? undefined,
     },
     onSubmit: handleSubmit,
   });
@@ -120,12 +146,15 @@ export const SectionBox = ({ data }: Props) => {
           <ChevronDownIcon className="size-6 cursor-pointer" />
         )}
       </S.SectionName>
+
       {open && (
         <S.Detail onClick={(e) => e.stopPropagation()}>
           <S.ComponentType>
             <S.Item>{getComponentType(data.componentType)}</S.Item>
             <TrashIcon onClick={handleDelete} className="size-6 cursor-pointer" />
           </S.ComponentType>
+
+          {/* 컴포넌트 */}
           <S.ItemBox>
             <p className="font-bold">이름</p>
             <S.Input
@@ -134,25 +163,18 @@ export const SectionBox = ({ data }: Props) => {
               width="280px"
             />
           </S.ItemBox>
-          <S.ItemBox $alignItems="center" $marginTop={10} $hasBorder>
+          <S.ItemBox $alignItems="center" $marginTop={10}>
             <p className="font-bold">배경</p>
             <S.BackgroundArea>
               <S.Select
                 width="90px"
-                value={formik.values.backgroundType ?? undefined}
-                onChange={formik.handleChange("backgroundType")}
+                value={formik.values.componentStyle.backgroundType}
+                onChange={formik.handleChange("componentStyle.backgroundType")}
               >
                 <option value={BackgroundType.Color} label="색상" />
                 <option value={BackgroundType.Image} label="이미지" />
               </S.Select>
-              {formik.values.backgroundType === BackgroundType.Color ? (
-                <S.Input
-                  value={formik.values.background ?? undefined}
-                  onChange={formik.handleChange("background")}
-                  width="170px"
-                  $textAlign="center"
-                />
-              ) : (
+              {formik.values.componentStyle.backgroundType === BackgroundType.Image ? (
                 <>
                   <input
                     type="file"
@@ -164,8 +186,9 @@ export const SectionBox = ({ data }: Props) => {
                     value={
                       file
                         ? file.name
-                        : data?.backgroundType === BackgroundType.Image && data?.background
-                        ? data?.background
+                        : data?.componentStyle?.backgroundType === BackgroundType.Image &&
+                          data?.componentStyle.background
+                        ? data?.componentStyle.background
                         : undefined
                     }
                     onClick={handleOpenUpload}
@@ -173,10 +196,53 @@ export const SectionBox = ({ data }: Props) => {
                     readOnly
                   />
                 </>
+              ) : (
+                <S.Input
+                  value={formik.values.componentStyle.background ?? undefined}
+                  onChange={formik.handleChange("componentStyle.background")}
+                  width="170px"
+                  $textAlign="center"
+                />
               )}
             </S.BackgroundArea>
           </S.ItemBox>
+          <S.ItemBox $marginTop={10}>
+            <S.FontSetting>
+              <p className="font-bold">높이</p>
+              <S.Input
+                name="componentStyle.heighte"
+                value={formik.values.componentStyle.height ?? undefined}
+                onChange={(e) => formik.setFieldValue("componentStyle.height", e.target.value)}
+                width="90px"
+                $textAlign="center"
+              />
+            </S.FontSetting>
+            <S.FontSetting>
+              <p className="font-bold">패딩</p>
+              <S.Input
+                name="componentStyle.padding"
+                value={formik.values.componentStyle.padding ?? undefined}
+                onChange={(e) => formik.setFieldValue("componentStyle.padding", e.target.value)}
+                width="90px"
+                $textAlign="center"
+              />
+            </S.FontSetting>
+          </S.ItemBox>
+          <S.ItemBox $marginTop={10} $hasBorder>
+            <S.FontSetting>
+              <p className="font-bold">갭</p>
+              <S.Input
+                name="componentStyle.gap"
+                value={formik.values.componentStyle.gap ?? undefined}
+                onChange={(e) => formik.setFieldValue("componentStyle.gap", e.target.value)}
+                width="90px"
+                $textAlign="center"
+              />
+            </S.FontSetting>
+            <S.FontSetting />
+          </S.ItemBox>
 
+          {/* 제목 */}
           <S.Item $marginTop={15}>제목</S.Item>
           <S.ItemBox $marginTop={5}>
             <p className="font-bold">텍스트</p>
@@ -237,6 +303,7 @@ export const SectionBox = ({ data }: Props) => {
             </S.FontSetting>
           </S.ItemBox>
 
+          {/* 부제목 */}
           <S.Item $marginTop={15}>부제목</S.Item>
           <S.ItemBox $marginTop={10} $alignItems="flex-start">
             <p className="font-bold">텍스트</p>
@@ -296,9 +363,20 @@ export const SectionBox = ({ data }: Props) => {
               />
             </S.FontSetting>
           </S.ItemBox>
+
           <S.ButtonBox>
-            <PanelButton text="리셋" onClick={handleReset} />
-            <PanelButton text="수정" color="#000" textColor="#fff" onClick={handleSubmit} />
+            <S.SubmitButton>
+              <PanelButton
+                text="+ 컴포넌트"
+                color="#E9455A"
+                textColor="#fff"
+                onClick={handleCreateChildren}
+              />
+            </S.SubmitButton>
+            <S.SubmitButton>
+              <PanelButton text="리셋" onClick={handleReset} />
+              <PanelButton text="수정" color="#000" textColor="#fff" onClick={handleSubmit} />
+            </S.SubmitButton>
           </S.ButtonBox>
         </S.Detail>
       )}

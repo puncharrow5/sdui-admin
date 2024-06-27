@@ -13,10 +13,17 @@ export const FIND_ONE_SITE_BY_ID = gql`
         name
         title
         content
-        backgroundType
-        background
         siteId
         isDelete
+        componentStyle {
+          id
+          height
+          padding
+          gap
+          background
+          backgroundType
+          componentId
+        }
         titleStyle {
           id
           margin
@@ -40,6 +47,7 @@ export const FIND_ONE_SITE_BY_ID = gql`
           width
           height
           margin
+          isDelete
           componentId
         }
       }

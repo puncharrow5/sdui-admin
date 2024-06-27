@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import * as S from "./SidePanel.style";
 import { ComponentEntity, ComponentType, SiteEntity } from "@/graphql/generated/types";
 import { SectionBox } from "../SectionBox";
 import { HeaderBox } from "../HeaderBox";
 import { SquaresPlusIcon } from "@heroicons/react/24/outline";
 import { CreateBox } from "../CreateBox";
 import { FooterBox } from "../FooterBox";
+import * as S from "./SidePanel.style";
 
 interface Props {
   data?: SiteEntity;
@@ -14,7 +14,6 @@ interface Props {
 export const SidePanel = ({ data }: Props) => {
   const [openCreateBox, setOpenCreateBox] = useState<boolean>(false);
   const [sections, setSections] = useState<ComponentEntity[]>([]);
-  const [inquiry, setInquiry] = useState<ComponentEntity>();
 
   const handleClickCreateButton = () => {
     setOpenCreateBox(!openCreateBox);

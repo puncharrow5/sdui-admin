@@ -28,14 +28,15 @@ export const Inquiry = ({ id, data, siteEmail }: Props) => {
       <S.InquiryImage
         id={id}
         style={
-          data.backgroundType === BackgroundType.Color
+          data.componentStyle?.backgroundType === BackgroundType.Color
             ? {
-                backgroundColor: data.background ?? "#FFF",
+                backgroundColor: data.componentStyle.background ?? "#FFF",
               }
-            : data.backgroundType === BackgroundType.Image
+            : data.componentStyle?.backgroundType === BackgroundType.Image
             ? {
                 backgroundImage:
-                  `url(${process.env.NEXT_PUBLIC_BASE_URL}/file/${data.background})` ?? "none",
+                  `url(${process.env.NEXT_PUBLIC_BASE_URL}/file/${data.componentStyle.background})` ??
+                  "none",
               }
             : undefined
         }

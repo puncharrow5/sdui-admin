@@ -36,6 +36,8 @@ export type ChildrenEntity = {
   id: Scalars['Int']['output'];
   /** 이미지 */
   image?: Maybe<Scalars['String']['output']>;
+  /** 삭제 여부 */
+  isDelete: Scalars['Boolean']['output'];
   /** 마진 */
   margin?: Maybe<Scalars['String']['output']>;
   /** 이름 */
@@ -46,12 +48,10 @@ export type ChildrenEntity = {
 
 /** 컴포넌트 */
 export type ComponentEntity = {
-  /** 배경 */
-  background?: Maybe<Scalars['String']['output']>;
-  /** 배경 종류 */
-  backgroundType?: Maybe<BackgroundType>;
   /** 자식 컴포넌트 목록 */
   children?: Maybe<Array<ChildrenEntity>>;
+  /** 컴포넌트 스타일 */
+  componentStyle?: Maybe<ComponentStyleEntity>;
   /** 컴포넌트 종류 */
   componentType: ComponentType;
   /** 내용 */
@@ -70,6 +70,37 @@ export type ComponentEntity = {
   title?: Maybe<Scalars['String']['output']>;
   /** 제목 스타일 */
   titleStyle?: Maybe<TitleStyleEntity>;
+};
+
+/** 컴포넌트 */
+export type ComponentStyleEntity = {
+  /** 배경 */
+  background?: Maybe<Scalars['String']['output']>;
+  /** 배경 종류 */
+  backgroundType?: Maybe<BackgroundType>;
+  /** 사이트 ID */
+  componentId: Scalars['Int']['output'];
+  /** 갭 */
+  gap?: Maybe<Scalars['String']['output']>;
+  /** 높이 */
+  height?: Maybe<Scalars['String']['output']>;
+  /** ID */
+  id: Scalars['Int']['output'];
+  /** 패딩 */
+  padding?: Maybe<Scalars['String']['output']>;
+};
+
+export type ComponentStyleInput = {
+  /** 배경 */
+  background?: InputMaybe<Scalars['String']['input']>;
+  /** 배경 종류 */
+  backgroundType?: InputMaybe<BackgroundType>;
+  /** 갭 */
+  gap?: InputMaybe<Scalars['String']['input']>;
+  /** 높이 */
+  height?: InputMaybe<Scalars['String']['input']>;
+  /** 패딩 */
+  padding?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** 컴포넌트 종류 */
@@ -170,6 +201,8 @@ export type Mutation = {
   createComponent: Scalars['Boolean']['output'];
   /** 사이트 생성 */
   createSite: Scalars['Boolean']['output'];
+  /** 자식 컴포넌트 삭제 */
+  deleteChildren: Scalars['Boolean']['output'];
   /** 컴포넌트 삭제 */
   deleteComponent: Scalars['Boolean']['output'];
   /** 로그인 */
@@ -208,6 +241,11 @@ export type MutationCreateSiteArgs = {
 };
 
 
+export type MutationDeleteChildrenArgs = {
+  id: Scalars['Int']['input'];
+};
+
+
 export type MutationDeleteComponentArgs = {
   id: Scalars['Int']['input'];
 };
@@ -220,8 +258,7 @@ export type MutationLoginArgs = {
 
 
 export type MutationUpdateComponentArgs = {
-  background?: InputMaybe<Scalars['String']['input']>;
-  backgroundType?: InputMaybe<BackgroundType>;
+  componentStyle?: InputMaybe<ComponentStyleInput>;
   content?: InputMaybe<Scalars['String']['input']>;
   contentStyle?: InputMaybe<ContentStyleInput>;
   file?: InputMaybe<Scalars['Upload']['input']>;
@@ -323,6 +360,13 @@ export type TitleStyleInput = {
   textSize?: InputMaybe<Scalars['Int']['input']>;
 };
 
+export type CreateChildrenMutationVariables = Exact<{
+  componentId: Scalars['Int']['input'];
+}>;
+
+
+export type CreateChildrenMutation = { createChildren: boolean };
+
 export type CreateComponentMutationVariables = Exact<{
   siteId: Scalars['Int']['input'];
   componentType: ComponentType;
@@ -344,8 +388,7 @@ export type UpdateComponentMutationVariables = Exact<{
   name: Scalars['String']['input'];
   title?: InputMaybe<Scalars['String']['input']>;
   content?: InputMaybe<Scalars['String']['input']>;
-  background?: InputMaybe<Scalars['String']['input']>;
-  backgroundType?: InputMaybe<BackgroundType>;
+  componentStyle?: InputMaybe<ComponentStyleInput>;
   titleStyle?: InputMaybe<TitleStyleInput>;
   contentStyle?: InputMaybe<ContentStyleInput>;
   file?: InputMaybe<Scalars['Upload']['input']>;
@@ -396,9 +439,40 @@ export type FindOneSiteByIdQueryVariables = Exact<{
 }>;
 
 
-export type FindOneSiteByIdQuery = { findOneSiteById: { id: number, name: string, email: string, domain: string, components?: Array<{ id: number, componentType: ComponentType, name: string, title?: string | null, content?: string | null, backgroundType?: BackgroundType | null, background?: string | null, siteId: number, isDelete: boolean, titleStyle?: { id: number, margin?: string | null, textSize?: number | null, textColor?: string | null, lineHeight?: number | null, componentId: number } | null, contentStyle?: { id: number, margin?: string | null, textSize?: number | null, textColor?: string | null, lineHeight?: number | null, componentId: number } | null, children?: Array<{ id: number, name: string, image?: string | null, width?: string | null, height?: string | null, margin?: string | null, componentId: number }> | null }> | null, header?: { id: number, logo?: string | null, logoSize?: string | null, height?: number | null, backgroundColor?: string | null, textSize?: number | null, textColor?: string | null, siteId: number } | null, footer?: { id: number, footerType: number, logo?: string | null, contentTop?: string | null, helpCenter?: string | null, terms?: string | null, contentBottom?: string | null, backgroundColor?: string | null, paddingTop?: string | null, paddingBottom?: string | null, textSize?: number | null, textColor?: string | null, lineHeight?: number | null, siteId: number } | null } };
+export type FindOneSiteByIdQuery = { findOneSiteById: { id: number, name: string, email: string, domain: string, components?: Array<{ id: number, componentType: ComponentType, name: string, title?: string | null, content?: string | null, siteId: number, isDelete: boolean, componentStyle?: { id: number, height?: string | null, padding?: string | null, gap?: string | null, background?: string | null, backgroundType?: BackgroundType | null, componentId: number } | null, titleStyle?: { id: number, margin?: string | null, textSize?: number | null, textColor?: string | null, lineHeight?: number | null, componentId: number } | null, contentStyle?: { id: number, margin?: string | null, textSize?: number | null, textColor?: string | null, lineHeight?: number | null, componentId: number } | null, children?: Array<{ id: number, name: string, image?: string | null, width?: string | null, height?: string | null, margin?: string | null, isDelete: boolean, componentId: number }> | null }> | null, header?: { id: number, logo?: string | null, logoSize?: string | null, height?: number | null, backgroundColor?: string | null, textSize?: number | null, textColor?: string | null, siteId: number } | null, footer?: { id: number, footerType: number, logo?: string | null, contentTop?: string | null, helpCenter?: string | null, terms?: string | null, contentBottom?: string | null, backgroundColor?: string | null, paddingTop?: string | null, paddingBottom?: string | null, textSize?: number | null, textColor?: string | null, lineHeight?: number | null, siteId: number } | null } };
 
 
+export const CreateChildrenDocument = gql`
+    mutation CreateChildren($componentId: Int!) {
+  createChildren(componentId: $componentId)
+}
+    `;
+export type CreateChildrenMutationFn = Apollo.MutationFunction<CreateChildrenMutation, CreateChildrenMutationVariables>;
+
+/**
+ * __useCreateChildrenMutation__
+ *
+ * To run a mutation, you first call `useCreateChildrenMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateChildrenMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createChildrenMutation, { data, loading, error }] = useCreateChildrenMutation({
+ *   variables: {
+ *      componentId: // value for 'componentId'
+ *   },
+ * });
+ */
+export function useCreateChildrenMutation(baseOptions?: Apollo.MutationHookOptions<CreateChildrenMutation, CreateChildrenMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateChildrenMutation, CreateChildrenMutationVariables>(CreateChildrenDocument, options);
+      }
+export type CreateChildrenMutationHookResult = ReturnType<typeof useCreateChildrenMutation>;
+export type CreateChildrenMutationResult = Apollo.MutationResult<CreateChildrenMutation>;
+export type CreateChildrenMutationOptions = Apollo.BaseMutationOptions<CreateChildrenMutation, CreateChildrenMutationVariables>;
 export const CreateComponentDocument = gql`
     mutation CreateComponent($siteId: Int!, $componentType: ComponentType!, $name: String!) {
   createComponent(siteId: $siteId, componentType: $componentType, name: $name)
@@ -464,14 +538,13 @@ export type DeleteComponentMutationHookResult = ReturnType<typeof useDeleteCompo
 export type DeleteComponentMutationResult = Apollo.MutationResult<DeleteComponentMutation>;
 export type DeleteComponentMutationOptions = Apollo.BaseMutationOptions<DeleteComponentMutation, DeleteComponentMutationVariables>;
 export const UpdateComponentDocument = gql`
-    mutation UpdateComponent($id: Int!, $name: String!, $title: String, $content: String, $background: String, $backgroundType: BackgroundType, $titleStyle: TitleStyleInput, $contentStyle: ContentStyleInput, $file: Upload) {
+    mutation UpdateComponent($id: Int!, $name: String!, $title: String, $content: String, $componentStyle: ComponentStyleInput, $titleStyle: TitleStyleInput, $contentStyle: ContentStyleInput, $file: Upload) {
   updateComponent(
     id: $id
     name: $name
     title: $title
     content: $content
-    background: $background
-    backgroundType: $backgroundType
+    componentStyle: $componentStyle
     titleStyle: $titleStyle
     contentStyle: $contentStyle
     file: $file
@@ -497,8 +570,7 @@ export type UpdateComponentMutationFn = Apollo.MutationFunction<UpdateComponentM
  *      name: // value for 'name'
  *      title: // value for 'title'
  *      content: // value for 'content'
- *      background: // value for 'background'
- *      backgroundType: // value for 'backgroundType'
+ *      componentStyle: // value for 'componentStyle'
  *      titleStyle: // value for 'titleStyle'
  *      contentStyle: // value for 'contentStyle'
  *      file: // value for 'file'
@@ -669,10 +741,17 @@ export const FindOneSiteByIdDocument = gql`
       name
       title
       content
-      backgroundType
-      background
       siteId
       isDelete
+      componentStyle {
+        id
+        height
+        padding
+        gap
+        background
+        backgroundType
+        componentId
+      }
       titleStyle {
         id
         margin
@@ -696,6 +775,7 @@ export const FindOneSiteByIdDocument = gql`
         width
         height
         margin
+        isDelete
         componentId
       }
     }
