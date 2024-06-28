@@ -1,27 +1,47 @@
-import React from "react";
-import { BackgroundType, ComponentEntity } from "@/graphql/generated/types";
+import React, { useEffect, useState } from "react";
+import {
+  BackgroundType,
+  ChildEntity,
+  ComponentEntity,
+  ComponentMobileStyleEntity,
+  ComponentStyleEntity,
+} from "@/graphql/generated/types";
 import * as S from "./Section.style";
+import { Child } from "../Child";
 
 interface Props {
-  id: string;
   data: ComponentEntity;
+  id: string;
+  isMobile: boolean;
 }
 
-export const Section = ({ data, id }: Props) => {
+export const Section = ({ data, id, isMobile }: Props) => {
+  const [componentStyle, setComponentStyle] = useState<
+    ComponentStyleEntity | ComponentMobileStyleEntity | null
+  >(null);
+
+  useEffect(() => {
+    if (isMobile) {
+      setComponentStyle(data.componentMobileStyle || null);
+    } else {
+      setComponentStyle(data.componentStyle || null);
+    }
+  }, [isMobile, data.componentMobileStyle, data.componentStyle]);
+
   return (
     <S.Container
       id={id}
-      $height={data.componentStyle?.height || undefined}
-      $padding={data.componentStyle?.padding || undefined}
+      $height={componentStyle?.height || undefined}
+      $padding={componentStyle?.padding || undefined}
       style={
-        data.componentStyle?.backgroundType === BackgroundType.Color
+        componentStyle?.backgroundType === BackgroundType.Color
           ? {
-              backgroundColor: data.componentStyle.background ?? "#FFF",
+              backgroundColor: componentStyle.background ?? "#FFF",
             }
-          : data.componentStyle?.backgroundType === BackgroundType.Image
+          : componentStyle?.backgroundType === BackgroundType.Image
           ? {
               backgroundImage:
-                `url(${process.env.NEXT_PUBLIC_BASE_URL}/file/${data.componentStyle.background})` ??
+                `url(${process.env.NEXT_PUBLIC_BASE_URL}/file/${componentStyle.background})` ??
                 "none",
             }
           : undefined
@@ -32,6 +52,12 @@ export const Section = ({ data, id }: Props) => {
         $contentStyle={data.contentStyle ?? undefined}
         dangerouslySetInnerHTML={{ __html: data.content ?? "" }}
       />
+      <S.ChildrenBox>
+        {data.children &&
+          data.children.map((value: ChildEntity, index: number) => (
+            <Child key={index} data={value} />
+          ))}
+      </S.ChildrenBox>
     </S.Container>
   );
 };

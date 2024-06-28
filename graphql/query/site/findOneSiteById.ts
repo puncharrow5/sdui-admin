@@ -13,9 +13,18 @@ export const FIND_ONE_SITE_BY_ID = gql`
         name
         title
         content
-        siteId
         isDelete
+        siteId
         componentStyle {
+          id
+          height
+          padding
+          gap
+          background
+          backgroundType
+          componentId
+        }
+        componentMobileStyle {
           id
           height
           padding
@@ -42,12 +51,23 @@ export const FIND_ONE_SITE_BY_ID = gql`
         }
         children {
           id
-          image
-          width
-          height
-          margin
+          childType
+          title
+          content
           isDelete
           componentId
+          childStyle {
+            id
+            width
+            height
+            margin
+            padding
+            background
+            backgroundType
+            border
+            borderRadius
+            childId
+          }
         }
       }
       header {
@@ -58,6 +78,21 @@ export const FIND_ONE_SITE_BY_ID = gql`
         backgroundColor
         textSize
         textColor
+        siteId
+      }
+      mobileHeader {
+        id
+        logo
+        logoSize
+        button
+        buttonSize
+        height
+        paddingHorizontal
+        paddingVertical
+        backgroundColor
+        textSize
+        textColor
+        border
         siteId
       }
       footer {

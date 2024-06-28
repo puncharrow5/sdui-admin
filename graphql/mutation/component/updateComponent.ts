@@ -7,9 +7,11 @@ export const UPDATE_COMPONENT = gql`
     $title: String
     $content: String
     $componentStyle: ComponentStyleInput
+    $componentMobileStyle: ComponentMobileStyleInput
     $titleStyle: TitleStyleInput
     $contentStyle: ContentStyleInput
-    $file: Upload
+    $imageFile: Upload
+    $mobileImageFile: Upload
   ) {
     updateComponent(
       id: $id
@@ -17,9 +19,11 @@ export const UPDATE_COMPONENT = gql`
       title: $title
       content: $content
       componentStyle: $componentStyle
+      componentMobileStyle: $componentMobileStyle
       titleStyle: $titleStyle
       contentStyle: $contentStyle
-      file: $file
+      imageFile: $imageFile
+      mobileImageFile: $mobileImageFile
     )
   }
 `;

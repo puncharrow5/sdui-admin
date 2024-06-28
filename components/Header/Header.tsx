@@ -14,7 +14,7 @@ export const Header = ({ data, sectionNames }: Props) => {
       $height={data?.height}
       $textSize={data?.textSize}
       $textColor={data?.textColor}
-      $backgrounColor={data?.backgroundColor}
+      $backgroundColor={data?.backgroundColor}
     >
       {data?.logo ? (
         <S.Logo

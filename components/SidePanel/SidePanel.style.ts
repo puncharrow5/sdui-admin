@@ -33,3 +33,29 @@ export const ComponentBox = styled.div`
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 `;
+
+export const Menu = styled.div`
+  position: absolute;
+  right: 20px;
+
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #e7e7ec;
+  border-radius: 8px;
+`;
+
+export const MenuItem = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: bold;
+  gap: 5px;
+  cursor: pointer;
+`;
+
+export const Line = styled.div`
+  width: 100%;
+  height: 1px;
+  margin: 7px 0;
+  background-color: #e7e7ec;
+`;

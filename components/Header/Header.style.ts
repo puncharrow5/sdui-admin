@@ -4,7 +4,7 @@ export const Header = styled.div<{
   $height?: number | null;
   $textSize?: number | null;
   $textColor?: string | null;
-  $backgrounColor?: string | null;
+  $backgroundColor?: string | null;
 }>`
   position: fixed;
   display: flex;
@@ -17,8 +17,8 @@ export const Header = styled.div<{
   font-size: ${({ $textSize }) => $textSize ?? 20}px;
   font-weight: bold;
   color: ${({ $textColor }) => $textColor ?? "#000"};
-  background-color: ${({ $backgrounColor }) => $backgrounColor ?? "transparent"};
-  border-bottom: 2px solid #e7e7ec;
+  background-color: ${({ $backgroundColor }) => $backgroundColor ?? "transparent"};
+  border-bottom: 1px solid #e7e7ec;
 `;
 
 export const Logo = styled.img<{

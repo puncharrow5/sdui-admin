@@ -11,6 +11,7 @@ export const Container = styled.div<{ $height?: string; $padding?: string }>`
   height: ${({ $height }) => $height ?? "754px"};
   padding: ${({ $padding }) => $padding ?? "0"};
   background-size: cover;
+  background-position: center;
 `;
 
 export const Title = styled.h1<{ $titleStyle?: TitleStyleEntity }>`
@@ -26,4 +27,10 @@ export const Content = styled.div<{ $contentStyle?: ContentStyleEntity }>`
   color: ${({ $contentStyle }) => $contentStyle?.textColor ?? "#000"};
   font-size: ${({ $contentStyle }) => $contentStyle?.textSize ?? 20}px;
   line-height: ${({ $contentStyle }) => $contentStyle?.lineHeight ?? 1.2};
+`;
+
+export const ChildrenBox = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
 `;

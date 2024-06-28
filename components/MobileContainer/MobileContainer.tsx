@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { ComponentEntity, ComponentType, SiteEntity } from "@/graphql/generated/types";
 import { Section } from "../Section";
-import { Header } from "../Header";
 import { Inquiry } from "../Inquiry";
 import { Footer } from "../Footer";
-import * as S from "./Container.style";
+import { MobileHeader } from "../MobileHeader";
+import * as S from "./MobileContainer.style";
 
 interface Props {
   data?: SiteEntity;
 }
 
-export const Container = ({ data }: Props) => {
+export const MobileContainer = ({ data }: Props) => {
   const [sections, setSections] = useState<ComponentEntity[]>([]);
   const [sectionNames, setSectionNames] = useState<string[]>([]);
   const [inquiry, setInquiry] = useState<ComponentEntity>();
@@ -40,13 +40,15 @@ export const Container = ({ data }: Props) => {
   }
 
   return (
-    <S.Container>
-      <Header sectionNames={sectionNames} data={data.header ?? undefined} />
-      {sections.map((value: ComponentEntity, index: number) => (
-        <Section key={index} id={value.name} data={value} isMobile={false} />
-      ))}
-      {inquiry && <Inquiry id={inquiry.name} data={inquiry} siteEmail={data.email} />}
-      <Footer data={data.footer ?? undefined} />
-    </S.Container>
+    <S.Background>
+      <S.Container>
+        <MobileHeader sectionNames={sectionNames} data={data.mobileHeader ?? undefined} />
+        {sections.map((value: ComponentEntity, index: number) => (
+          <Section key={index} id={value.name} data={value} isMobile={true} />
+        ))}
+        {inquiry && <Inquiry id={inquiry.name} data={inquiry} siteEmail={data.email} />}
+        <Footer data={data.footer ?? undefined} />
+      </S.Container>
+    </S.Background>
   );
 };
