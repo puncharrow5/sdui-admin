@@ -49,7 +49,7 @@ export const Inquiry = ({ id, data, siteEmail }: Props) => {
           dangerouslySetInnerHTML={{ __html: data.content ?? "" }}
         />
 
-        <S.Form $textSize={data.contentStyle?.textSize ?? undefined}>
+        <S.Form $textSize={data.contentStyle?.size ?? undefined}>
           <label className="mb-2">이메일</label>
           <input
             value={emailForm.email}

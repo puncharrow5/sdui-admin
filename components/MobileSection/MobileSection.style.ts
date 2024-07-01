@@ -8,7 +8,7 @@ export const Container = styled.div<{ $height?: string; $padding?: string }>`
   align-items: center;
   text-align: center;
   width: 100%;
-  height: ${({ $height }) => $height ?? "754px"};
+  height: ${({ $height }) => $height ?? "670px"};
   padding: ${({ $padding }) => $padding ?? "0"};
   background-size: cover;
   background-position: center;
@@ -16,17 +16,17 @@ export const Container = styled.div<{ $height?: string; $padding?: string }>`
 
 export const Title = styled.h1<{ $titleStyle?: TitleStyleEntity }>`
   font-weight: bold;
-  margin: ${({ $titleStyle }) => $titleStyle?.margin ?? 0};
+  margin: ${({ $titleStyle }) => $titleStyle?.mobileMargin ?? 0};
   color: ${({ $titleStyle }) => $titleStyle?.color ?? "#000"};
-  font-size: ${({ $titleStyle }) => $titleStyle?.size ?? 60}px;
-  line-height: ${({ $titleStyle }) => $titleStyle?.lineHeight ?? 1.2};
+  font-size: ${({ $titleStyle }) => $titleStyle?.mobileSize ?? 20}px;
+  line-height: ${({ $titleStyle }) => $titleStyle?.mobileLineHeight ?? 1.2};
 `;
 
 export const Content = styled.div<{ $contentStyle?: ContentStyleEntity }>`
-  margin: ${({ $contentStyle }) => $contentStyle?.margin ?? 0};
+  margin: ${({ $contentStyle }) => $contentStyle?.mobileMargin ?? 0};
   color: ${({ $contentStyle }) => $contentStyle?.color ?? "#000"};
-  font-size: ${({ $contentStyle }) => $contentStyle?.size ?? 20}px;
-  line-height: ${({ $contentStyle }) => $contentStyle?.lineHeight ?? 1.2};
+  font-size: ${({ $contentStyle }) => $contentStyle?.mobileSize ?? 14}px;
+  line-height: ${({ $contentStyle }) => $contentStyle?.mobileLineHeight ?? 1.2};
 `;
 
 export const ChildrenBox = styled.div`

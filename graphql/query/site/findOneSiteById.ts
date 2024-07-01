@@ -36,16 +36,22 @@ export const FIND_ONE_SITE_BY_ID = gql`
         titleStyle {
           id
           margin
-          textSize
-          textColor
+          mobileMargin
+          size
+          mobileSize
+          color
+          mobileLineHeight
           lineHeight
           componentId
         }
         contentStyle {
           id
           margin
-          textSize
-          textColor
+          mobileMargin
+          size
+          mobileSize
+          color
+          mobileLineHeight
           lineHeight
           componentId
         }

@@ -10,8 +10,8 @@ import {
 } from "@heroicons/react/24/outline";
 import { CreateBox } from "../CreateBox";
 import { FooterBox } from "../FooterBox";
-import * as S from "./SidePanel.style";
 import { MobileHeaderBox } from "../MobileHeaderBox";
+import * as S from "./SidePanel.style";
 
 interface Props {
   data?: SiteEntity;
@@ -66,6 +66,7 @@ export const SidePanel = ({ data, isMobile, handleSetDesktop, handleSetMobile }:
           <p className="text-xl font-bold">{data?.name}</p>
           <p className="text-md text-gray-500">{data?.domain}</p>
         </div>
+
         <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
           <AdjustmentsHorizontalIcon className="relative size-9 cursor-pointer" />
           {openMenu && (
@@ -95,7 +96,7 @@ export const SidePanel = ({ data, isMobile, handleSetDesktop, handleSetMobile }:
           <>
             <MobileHeaderBox siteId={data.id} data={data.mobileHeader} />
             {sections.map((value: ComponentEntity, index: number) => (
-              <SectionBox key={index} data={value} />
+              <SectionBox key={index} data={value} isMobile={true} />
             ))}
             <FooterBox siteId={data.id} data={data.footer} />
           </>

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { ComponentEntity, ComponentType, SiteEntity } from "@/graphql/generated/types";
-import { Section } from "../Section";
 import { Inquiry } from "../Inquiry";
 import { Footer } from "../Footer";
 import { MobileHeader } from "../MobileHeader";
 import * as S from "./MobileContainer.style";
+import { MobileSection } from "../MobileSection";
 
 interface Props {
   data?: SiteEntity;
@@ -44,7 +44,7 @@ export const MobileContainer = ({ data }: Props) => {
       <S.Container>
         <MobileHeader sectionNames={sectionNames} data={data.mobileHeader ?? undefined} />
         {sections.map((value: ComponentEntity, index: number) => (
-          <Section key={index} id={value.name} data={value} isMobile={true} />
+          <MobileSection key={index} id={value.name} data={value} isMobile={true} />
         ))}
         {inquiry && <Inquiry id={inquiry.name} data={inquiry} siteEmail={data.email} />}
         <Footer data={data.footer ?? undefined} />

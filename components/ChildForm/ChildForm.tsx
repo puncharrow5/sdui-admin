@@ -9,9 +9,9 @@ import {
   useDeleteChildMutation,
   useUpdateChildMutation,
 } from "@/graphql/generated/types";
-import * as S from "./ChildForm.style";
-import { TrashIcon } from "@heroicons/react/24/outline";
 import { useFormik } from "formik";
+import { TrashIcon } from "@heroicons/react/24/outline";
+import * as S from "./ChildForm.style";
 
 interface Props {
   index: number;

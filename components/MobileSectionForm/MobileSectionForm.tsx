@@ -11,17 +11,17 @@ import {
 } from "@/graphql/generated/types";
 import { useFormik } from "formik";
 import { PanelButton } from "../PanelButton";
-import * as S from "./SectionForm.style";
+import * as S from "./MobileSectionForm.style";
 
 interface Props {
   data: ComponentEntity;
 }
 
-export const SectionForm = ({ data }: Props) => {
+export const MobileSectionForm = ({ data }: Props) => {
   const client = useApolloClient();
   const { ToastMessage } = useToastMessage();
 
-  const [imageFile, setImageFile] = useState<File>();
+  const [mobileImageFile, setMobileImageFile] = useState<File>();
 
   const [loadUpdateComponent, { loading: updateLoading }] = useUpdateComponentMutation({
     onCompleted: () => {
@@ -49,7 +49,7 @@ export const SectionForm = ({ data }: Props) => {
     const selectedFile = e.target.files?.[0];
 
     if (selectedFile) {
-      setImageFile(selectedFile);
+      setMobileImageFile(selectedFile);
     }
   };
 
@@ -62,14 +62,16 @@ export const SectionForm = ({ data }: Props) => {
       variables: {
         id: data.id,
         ...formik.values,
-        ...(formik.values.componentStyle.backgroundType === BackgroundType.Image && { imageFile }),
+        ...(formik.values.componentMobileStyle.backgroundType === BackgroundType.Image && {
+          mobileImageFile,
+        }),
       },
     });
   };
 
   const handleReset = () => {
     formik.resetForm();
-    setImageFile(undefined);
+    setMobileImageFile(undefined);
   };
 
   const handleCreateChild = () => {
@@ -84,26 +86,26 @@ export const SectionForm = ({ data }: Props) => {
   const formik = useFormik({
     initialValues: {
       name: data.name,
-      componentStyle: {
-        height: data.componentStyle?.height ?? undefined,
-        padding: data.componentStyle?.padding ?? undefined,
-        gap: data.componentStyle?.gap ?? undefined,
-        background: data?.componentStyle?.background ?? undefined,
-        backgroundType: data?.componentStyle?.backgroundType ?? BackgroundType.Color,
+      componentMobileStyle: {
+        height: data.componentMobileStyle?.height ?? undefined,
+        padding: data.componentMobileStyle?.padding ?? undefined,
+        gap: data.componentMobileStyle?.gap ?? undefined,
+        background: data.componentMobileStyle?.background ?? undefined,
+        backgroundType: data.componentMobileStyle?.backgroundType ?? BackgroundType.Color,
       },
       title: data?.title ?? undefined,
       titleStyle: {
-        size: data?.titleStyle?.size ?? undefined,
+        mobileSize: data?.titleStyle?.mobileSize ?? undefined,
         color: data?.titleStyle?.color ?? undefined,
-        margin: data.titleStyle?.margin ?? undefined,
-        lineHeight: data.titleStyle?.lineHeight ?? undefined,
+        mobileMargin: data.titleStyle?.mobileMargin ?? undefined,
+        mobileLineHeight: data.titleStyle?.mobileLineHeight ?? undefined,
       },
       content: data.content ?? undefined,
       contentStyle: {
-        size: data.contentStyle?.size ?? undefined,
+        mobileSize: data.contentStyle?.mobileSize ?? undefined,
         color: data?.contentStyle?.color ?? undefined,
-        margin: data.contentStyle?.margin ?? undefined,
-        lineHeight: data.contentStyle?.lineHeight ?? undefined,
+        mobileMargin: data.contentStyle?.mobileMargin ?? undefined,
+        mobileLineHeight: data.contentStyle?.mobileLineHeight ?? undefined,
       },
     },
     onSubmit: handleSubmit,
@@ -121,13 +123,13 @@ export const SectionForm = ({ data }: Props) => {
         <S.BackgroundArea>
           <S.Select
             width="90px"
-            value={formik.values.componentStyle.backgroundType}
-            onChange={formik.handleChange("componentStyle.backgroundType")}
+            value={formik.values.componentMobileStyle.backgroundType}
+            onChange={formik.handleChange("componentMobileStyle.backgroundType")}
           >
             <option value={BackgroundType.Color} label="색상" />
             <option value={BackgroundType.Image} label="이미지" />
           </S.Select>
-          {formik.values.componentStyle.backgroundType === BackgroundType.Image ? (
+          {formik.values.componentMobileStyle.backgroundType === BackgroundType.Image ? (
             <>
               <input
                 type="file"
@@ -137,11 +139,11 @@ export const SectionForm = ({ data }: Props) => {
               />
               <S.FileInput
                 value={
-                  imageFile
-                    ? imageFile.name
-                    : data?.componentStyle?.backgroundType === BackgroundType.Image &&
-                      data?.componentStyle.background
-                    ? data?.componentStyle.background
+                  mobileImageFile
+                    ? mobileImageFile.name
+                    : data?.componentMobileStyle?.backgroundType === BackgroundType.Image &&
+                      data?.componentMobileStyle.background
+                    ? data?.componentMobileStyle.background
                     : undefined
                 }
                 onClick={handleOpenUpload}
@@ -151,8 +153,8 @@ export const SectionForm = ({ data }: Props) => {
             </>
           ) : (
             <S.Input
-              value={formik.values.componentStyle.background ?? undefined}
-              onChange={formik.handleChange("componentStyle.background")}
+              value={formik.values.componentMobileStyle.background ?? undefined}
+              onChange={formik.handleChange("componentMobileStyle.background")}
               width="170px"
               $textAlign="center"
             />
@@ -163,9 +165,9 @@ export const SectionForm = ({ data }: Props) => {
         <S.FontSetting>
           <p className="font-bold">높이</p>
           <S.Input
-            name="componentStyle.heighte"
-            value={formik.values.componentStyle.height ?? undefined}
-            onChange={(e) => formik.setFieldValue("componentStyle.height", e.target.value)}
+            name="componentMobileStyle.heighte"
+            value={formik.values.componentMobileStyle.height ?? undefined}
+            onChange={(e) => formik.setFieldValue("componentMobileStyle.height", e.target.value)}
             width="90px"
             $textAlign="center"
           />
@@ -173,9 +175,9 @@ export const SectionForm = ({ data }: Props) => {
         <S.FontSetting>
           <p className="font-bold">패딩</p>
           <S.Input
-            name="componentStyle.padding"
-            value={formik.values.componentStyle.padding ?? undefined}
-            onChange={(e) => formik.setFieldValue("componentStyle.padding", e.target.value)}
+            name="componentMobileStyle.padding"
+            value={formik.values.componentMobileStyle.padding ?? undefined}
+            onChange={(e) => formik.setFieldValue("componentMobileStyle.padding", e.target.value)}
             width="90px"
             $textAlign="center"
           />
@@ -185,9 +187,9 @@ export const SectionForm = ({ data }: Props) => {
         <S.FontSetting>
           <p className="font-bold">갭</p>
           <S.Input
-            name="componentStyle.gap"
-            value={formik.values.componentStyle.gap ?? undefined}
-            onChange={(e) => formik.setFieldValue("componentStyle.gap", e.target.value)}
+            name="componentMobileStyle.gap"
+            value={formik.values.componentMobileStyle.gap ?? undefined}
+            onChange={(e) => formik.setFieldValue("componentMobileStyle.gap", e.target.value)}
             width="90px"
             $textAlign="center"
           />
@@ -209,7 +211,7 @@ export const SectionForm = ({ data }: Props) => {
         <S.FontSetting>
           <p className="font-bold">텍스트 색상</p>
           <S.Input
-            name="titleStyle.size"
+            name="titleStyle.mobileSize"
             value={formik.values.titleStyle.color ?? undefined}
             onChange={(e) => formik.setFieldValue("titleStyle.color", e.target.value)}
             width="90px"
@@ -220,9 +222,11 @@ export const SectionForm = ({ data }: Props) => {
           <p className="font-bold">텍스트 크기</p>
           <S.Input
             type="number"
-            name="titleStyle.size"
-            value={formik.values.titleStyle.size ?? undefined}
-            onChange={(e) => formik.setFieldValue("titleStyle.size", parseInt(e.target.value))}
+            name="titleStyle.mobileSize"
+            value={formik.values.titleStyle.mobileSize ?? undefined}
+            onChange={(e) =>
+              formik.setFieldValue("titleStyle.mobileSize", parseInt(e.target.value))
+            }
             width="90px"
             $textAlign="center"
           />
@@ -232,9 +236,9 @@ export const SectionForm = ({ data }: Props) => {
         <S.FontSetting>
           <p className="font-bold">마진</p>
           <S.Input
-            name="titleStyle.margin"
-            value={formik.values.titleStyle.margin ?? undefined}
-            onChange={formik.handleChange("titleStyle.margin")}
+            name="titleStyle.mobileMargin"
+            value={formik.values.titleStyle.mobileMargin ?? undefined}
+            onChange={formik.handleChange("titleStyle.mobileMargin")}
             placeholder="ex) 0 0 0 0"
             width="90px"
           />
@@ -243,10 +247,10 @@ export const SectionForm = ({ data }: Props) => {
           <p className="font-bold">줄 높이</p>
           <S.Input
             type="number"
-            name="titleStyle.lineHeight"
-            value={formik.values.titleStyle.lineHeight ?? undefined}
+            name="titleStyle.mobileLineHeight"
+            value={formik.values.titleStyle.mobileLineHeight ?? undefined}
             onChange={(e) =>
-              formik.setFieldValue("titleStyle.lineHeight", parseInt(e.target.value))
+              formik.setFieldValue("titleStyle.mobileLineHeight", parseInt(e.target.value))
             }
             width="90px"
             $textAlign="center"
@@ -279,9 +283,11 @@ export const SectionForm = ({ data }: Props) => {
           <p className="font-bold">텍스트 크기</p>
           <S.Input
             type="number"
-            name="contentStyle.size"
-            value={formik.values.contentStyle.size ?? undefined}
-            onChange={(e) => formik.setFieldValue("contentStyle.size", parseInt(e.target.value))}
+            name="contentStyle.mobileSize"
+            value={formik.values.contentStyle.mobileSize ?? undefined}
+            onChange={(e) =>
+              formik.setFieldValue("contentStyle.mobileSize", parseInt(e.target.value))
+            }
             width="90px"
             $textAlign="center"
           />
@@ -291,9 +297,9 @@ export const SectionForm = ({ data }: Props) => {
         <S.FontSetting>
           <p className="font-bold">마진</p>
           <S.Input
-            name="contentStyle.margin"
-            value={formik.values.contentStyle.margin ?? undefined}
-            onChange={formik.handleChange("contentStyle.margin")}
+            name="contentStyle.mobileMargin"
+            value={formik.values.contentStyle.mobileMargin ?? undefined}
+            onChange={formik.handleChange("contentStyle.mobileMargin")}
             placeholder="ex) 0 0 0 0"
             width="90px"
           />
@@ -302,10 +308,10 @@ export const SectionForm = ({ data }: Props) => {
           <p className="font-bold">줄 높이</p>
           <S.Input
             type="number"
-            name="contentStyle.lineHeight"
-            value={formik.values.contentStyle.lineHeight ?? undefined}
+            name="contentStyle.mobileLineHeight"
+            value={formik.values.contentStyle.mobileLineHeight ?? undefined}
             onChange={(e) =>
-              formik.setFieldValue("contentStyle.lineHeight", parseInt(e.target.value))
+              formik.setFieldValue("contentStyle.mobileLineHeight", parseInt(e.target.value))
             }
             width="90px"
             $textAlign="center"

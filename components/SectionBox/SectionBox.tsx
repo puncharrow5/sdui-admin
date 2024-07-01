@@ -13,12 +13,14 @@ import { useToastMessage } from "@/hooks";
 import { ChildForm } from "../ChildForm";
 import { SectionForm } from "../SectionForm";
 import * as S from "./SectionBox.style";
+import { MobileSectionForm } from "../MobileSectionForm";
 
 interface Props {
   data: ComponentEntity;
+  isMobile?: boolean;
 }
 
-export const SectionBox = ({ data }: Props) => {
+export const SectionBox = ({ data, isMobile }: Props) => {
   const client = useApolloClient();
   const { ToastMessage } = useToastMessage();
 
@@ -65,7 +67,7 @@ export const SectionBox = ({ data }: Props) => {
             <TrashIcon onClick={handleDelete} className="size-6 cursor-pointer" />
           </S.ComponentType>
 
-          <SectionForm data={data} />
+          {isMobile ? <MobileSectionForm data={data} /> : <SectionForm data={data} />}
 
           {data.children &&
             data.children.map((value: ChildEntity, index: number) => (

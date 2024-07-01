@@ -40,7 +40,7 @@ export const Container = ({ data }: Props) => {
   }
 
   return (
-    <S.Container>
+    <S.Container $paddingTop={data.header?.height}>
       <Header sectionNames={sectionNames} data={data.header ?? undefined} />
       {sections.map((value: ComponentEntity, index: number) => (
         <Section key={index} id={value.name} data={value} isMobile={false} />

@@ -41,7 +41,9 @@ export const Footer = ({ data }: Props) => {
                 alt="로고 이미지"
               />
             ) : (
-              <S.Title className="cursor-pointer">{data?.logo ?? "로고"}</S.Title>
+              <S.Title $textColor={data?.textColor} className="cursor-pointer">
+                {data?.logo ?? "로고"}
+              </S.Title>
             )}
             <S.Content
               dangerouslySetInnerHTML={{ __html: data?.contentTop ?? "" }}
@@ -51,7 +53,7 @@ export const Footer = ({ data }: Props) => {
 
             {data?.helpCenter && (
               <>
-                <S.Title>고객센터</S.Title>
+                <S.Title $textColor={data?.textColor}>고객센터</S.Title>
                 <S.Content
                   dangerouslySetInnerHTML={{ __html: data?.helpCenter ?? "" }}
                   $textSize={data?.textSize}
@@ -63,7 +65,7 @@ export const Footer = ({ data }: Props) => {
 
             {data?.terms && (
               <>
-                <S.Title>약관</S.Title>
+                <S.Title $textColor={data?.textColor}>약관</S.Title>
                 <S.Content
                   $textSize={data?.textSize}
                   $textColor={data?.textColor}

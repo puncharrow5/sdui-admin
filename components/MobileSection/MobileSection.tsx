@@ -1,7 +1,7 @@
 import React from "react";
 import { BackgroundType, ChildEntity, ComponentEntity } from "@/graphql/generated/types";
+import * as S from "./MobileSection.style";
 import { Child } from "../Child";
-import * as S from "./Section.style";
 
 interface Props {
   data: ComponentEntity;
@@ -9,21 +9,21 @@ interface Props {
   isMobile: boolean;
 }
 
-export const Section = ({ data, id, isMobile }: Props) => {
+export const MobileSection = ({ data, id, isMobile }: Props) => {
   return (
     <S.Container
       id={id}
-      $height={data.componentStyle?.height || undefined}
-      $padding={data.componentStyle?.padding || undefined}
+      $height={data.componentMobileStyle?.height || undefined}
+      $padding={data.componentMobileStyle?.padding || undefined}
       style={
-        data.componentStyle?.backgroundType === BackgroundType.Color
+        data.componentMobileStyle?.backgroundType === BackgroundType.Color
           ? {
-              backgroundColor: data.componentStyle.background ?? "#FFF",
+              backgroundColor: data.componentMobileStyle.background ?? "#FFF",
             }
-          : data.componentStyle?.backgroundType === BackgroundType.Image
+          : data.componentMobileStyle?.backgroundType === BackgroundType.Image
           ? {
               backgroundImage:
-                `url(${process.env.NEXT_PUBLIC_BASE_URL}/file/${data.componentStyle.background})` ??
+                `url(${process.env.NEXT_PUBLIC_BASE_URL}/file/${data.componentMobileStyle.background})` ??
                 "none",
             }
           : undefined
