@@ -1,9 +1,10 @@
 import React from "react";
+import { LoginForm } from "@/components/LoginForm";
 
 export default function Login() {
   return (
     <div>
-      <p>로그인 페이지</p>
+      <LoginForm />
     </div>
   );
 }

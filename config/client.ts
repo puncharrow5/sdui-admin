@@ -1,3 +1,5 @@
+import { useLogoutMutation } from "@/graphql/generated/types";
+import { useToastMessage } from "@/hooks";
 import { ApolloClient, InMemoryCache, createHttpLink, split } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import { getMainDefinition } from "@apollo/client/utilities";
@@ -6,6 +8,8 @@ import Router from "next/router";
 
 // 인증 오류 처리
 const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
+  // const [loadLogout] = useLogoutMutation();
+
   let getNewAccessToken;
 
   if (graphQLErrors) {
@@ -29,25 +33,23 @@ const errorLink = onError(({ graphQLErrors, networkError, operation, forward }) 
         //       }
         //     });
         // });
-
-        // onToast({ type: "error", message: "로그인이 만료되었습니다." });
-        return Router.push("/login", undefined, { shallow: true });
+        // ToastMessage("error", "로그인이 만료되었습니다.");
+        // loadLogout();
       }
     });
-
-    // onToast({ type: "error", message: `${graphQLErrors[0].message}` });
+    // ToastMessage("error", `${graphQLErrors[0].message}`);
   }
 
-  //   if (networkError) {
-  //     onToast({ type: "error", message: `네트워크 에러: ${networkError}` });
-  //   }
+  // if (networkError) {
+  //   ToastMessage("error", `네트워크 에러: ${networkError}`);
+  // }
 
-  //   return getNewAccessToken;
+  // return getNewAccessToken;
 });
 
 // HTTP
 const httpLink = createHttpLink({
-  uri: "http://10.10.100.57:3000/graphql",
+  uri: process.env.NEXT_PUBLIC_GQL_URL,
   headers: {
     "Apollo-Require-Preflight": "true",
   },
@@ -58,7 +60,7 @@ const httpLink = createHttpLink({
 });
 
 const uploadLink = createUploadLink({
-  uri: "http://10.10.100.57:3000/graphql",
+  uri: process.env.NEXT_PUBLIC_GQL_URL,
   credentials: "include",
 });
 
