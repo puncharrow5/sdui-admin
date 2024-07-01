@@ -17,12 +17,15 @@ export default function Dashboard() {
   const handleOpenModal = () => {
     setOpen(true);
   };
+  const handleCloseModal = () => {
+    setOpen(false);
+  };
 
   return (
     <>
-      {open && <RegisterModal />}
-      <div className="flex justify-center w-screen min-h-screen py-40 bg-gray-300">
-        <div className="flex flex-col w-1/2 px-20 py-10 bg-white rounded-lg">
+      {open && <RegisterModal handleCloseModal={handleCloseModal} />}
+      <div className="flex justify-center w-screen min-h-screen py-40 bg-[#2D333B]">
+        <div className="flex flex-col w-1/2 px-20 py-10 bg-slate-50 rounded-lg">
           <h1 className="text-center text-3xl font-bold">대시보드</h1>
           <div className="flex justify-between items-center mt-10 font-bold">
             <p className="">등록된 사이트</p>
@@ -30,6 +33,7 @@ export default function Dashboard() {
               + 사이트 등록
             </div>
           </div>
+
           {!!data ? (
             <div className="flex flex-col mt-4 gap-2">
               {data.findManySite.map((value, index) => (
