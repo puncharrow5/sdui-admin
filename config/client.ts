@@ -76,6 +76,7 @@ const splitLink = split(
 const client = new ApolloClient({
   link: errorLink.concat(splitLink),
   cache: new InMemoryCache(),
+  ssrMode: true,
 });
 
 export default client;
