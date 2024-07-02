@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { useToastMessage } from "@/hooks";
 import { LoginMutationVariables, useLoginMutation } from "@/graphql/generated/types";
 import * as S from "./LoginForm.style";
+import { BeatLoader } from "react-spinners";
 
 export const LoginForm = () => {
   const router = useRouter();
@@ -15,7 +16,7 @@ export const LoginForm = () => {
     password: "",
   });
 
-  const [loadLogin] = useLoginMutation({
+  const [loadLogin, { loading }] = useLoginMutation({
     onCompleted: () => {
       router.push("/dashboard");
     },
@@ -23,6 +24,9 @@ export const LoginForm = () => {
       ToastMessage("error", e.message ?? e);
     },
   });
+  if (loading) {
+    return "로딩중...";
+  }
 
   const handleLogin = () => {
     loadLogin({
@@ -53,7 +57,7 @@ export const LoginForm = () => {
           type="password"
         />
         <S.Button onClick={handleLogin}>
-          <p>로그인</p>
+          {loading ? <BeatLoader size={10} speedMultiplier={0.75} color="#FFF" /> : <p>로그인</p>}
         </S.Button>
       </S.Box>
     </S.Container>

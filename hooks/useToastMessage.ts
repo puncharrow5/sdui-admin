@@ -12,9 +12,6 @@ export function useToastMessage() {
       closeOnClick: true,
       pauseOnHover: true,
       theme: "light",
-      style: {
-        top: "60px",
-      },
       type,
     });
   };
