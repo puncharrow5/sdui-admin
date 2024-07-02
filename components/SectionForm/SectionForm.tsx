@@ -246,7 +246,7 @@ export const SectionForm = ({ data }: Props) => {
             name="titleStyle.lineHeight"
             value={formik.values.titleStyle.lineHeight ?? undefined}
             onChange={(e) =>
-              formik.setFieldValue("titleStyle.lineHeight", parseInt(e.target.value))
+              formik.setFieldValue("titleStyle.lineHeight", parseFloat(e.target.value))
             }
             width="90px"
             $textAlign="center"
@@ -305,7 +305,7 @@ export const SectionForm = ({ data }: Props) => {
             name="contentStyle.lineHeight"
             value={formik.values.contentStyle.lineHeight ?? undefined}
             onChange={(e) =>
-              formik.setFieldValue("contentStyle.lineHeight", parseInt(e.target.value))
+              formik.setFieldValue("contentStyle.lineHeight", parseFloat(e.target.value))
             }
             width="90px"
             $textAlign="center"

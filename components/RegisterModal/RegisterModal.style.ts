@@ -1,3 +1,4 @@
+import { SUBMIT } from "@/styles/color";
 import styled from "styled-components";
 
 export const Backdrop = styled.div`
@@ -7,6 +8,7 @@ export const Backdrop = styled.div`
   align-items: center;
   width: 100vw;
   height: 100vh;
+  top: 0;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 1;
 `;
@@ -70,7 +72,8 @@ export const SubmitButton = styled.button`
   width: 100%;
   margin-top: 20px;
   padding: 10px 20px;
-  border-width: 2px;
+  color: #fff;
+  background-color: ${SUBMIT};
   border-radius: 10px;
 `;
 

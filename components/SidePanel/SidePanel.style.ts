@@ -50,6 +50,7 @@ export const MenuItem = styled.div`
   font-size: 14px;
   font-weight: bold;
   gap: 5px;
+  padding: 0 3px;
   cursor: pointer;
 `;
 

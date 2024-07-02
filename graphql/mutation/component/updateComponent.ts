@@ -5,7 +5,9 @@ export const UPDATE_COMPONENT = gql`
     $id: Int!
     $name: String!
     $title: String
+    $mobileTitle: String
     $content: String
+    $mobileContent: String
     $componentStyle: ComponentStyleInput
     $componentMobileStyle: ComponentMobileStyleInput
     $titleStyle: TitleStyleInput
@@ -17,7 +19,9 @@ export const UPDATE_COMPONENT = gql`
       id: $id
       name: $name
       title: $title
+      mobileTitle: $mobileTitle
       content: $content
+      mobileContent: $mobileContent
       componentStyle: $componentStyle
       componentMobileStyle: $componentMobileStyle
       titleStyle: $titleStyle

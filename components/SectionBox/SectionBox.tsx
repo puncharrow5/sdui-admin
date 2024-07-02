@@ -4,6 +4,7 @@ import {
   ChildEntity,
   ComponentEntity,
   FindOneSiteByIdDocument,
+  MobileChildEntity,
   useDeleteComponentMutation,
 } from "@/graphql/generated/types";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
@@ -12,8 +13,9 @@ import { getComponentType } from "@/utils";
 import { useToastMessage } from "@/hooks";
 import { ChildForm } from "../ChildForm";
 import { SectionForm } from "../SectionForm";
-import * as S from "./SectionBox.style";
 import { MobileSectionForm } from "../MobileSectionForm";
+import { MobileChildForm } from "../MobileChildForm";
+import * as S from "./SectionBox.style";
 
 interface Props {
   data: ComponentEntity;
@@ -69,10 +71,21 @@ export const SectionBox = ({ data, isMobile }: Props) => {
 
           {isMobile ? <MobileSectionForm data={data} /> : <SectionForm data={data} />}
 
-          {data.children &&
-            data.children.map((value: ChildEntity, index: number) => (
-              <ChildForm key={index} data={value} index={index} />
-            ))}
+          {isMobile ? (
+            <>
+              {data.mobileChildren &&
+                data.mobileChildren.map((value: MobileChildEntity, index: number) => (
+                  <MobileChildForm key={index} data={value} index={index} />
+                ))}
+            </>
+          ) : (
+            <>
+              {data.children &&
+                data.children.map((value: ChildEntity, index: number) => (
+                  <ChildForm key={index} data={value} index={index} />
+                ))}
+            </>
+          )}
         </S.Detail>
       )}
     </S.Container>

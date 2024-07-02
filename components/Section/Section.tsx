@@ -6,10 +6,9 @@ import * as S from "./Section.style";
 interface Props {
   data: ComponentEntity;
   id: string;
-  isMobile: boolean;
 }
 
-export const Section = ({ data, id, isMobile }: Props) => {
+export const Section = ({ data, id }: Props) => {
   return (
     <S.Container
       id={id}

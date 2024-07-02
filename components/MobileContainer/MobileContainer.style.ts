@@ -9,10 +9,11 @@ export const Background = styled.div`
   background-color: #2d333b;
 `;
 
-export const Container = styled.div`
+export const Container = styled.div<{ $paddingTop?: number | null }>`
   display: flex;
   flex-direction: column;
   background-color: #fff;
   width: 375px;
   height: 100%;
+  padding-top: ${({ $paddingTop }) => $paddingTop ?? 80}px;
 `;

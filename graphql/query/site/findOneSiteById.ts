@@ -12,7 +12,9 @@ export const FIND_ONE_SITE_BY_ID = gql`
         componentType
         name
         title
+        mobileTitle
         content
+        mobileContent
         isDelete
         siteId
         componentStyle {
@@ -73,6 +75,26 @@ export const FIND_ONE_SITE_BY_ID = gql`
             border
             borderRadius
             childId
+          }
+        }
+        mobileChildren {
+          id
+          childType
+          title
+          content
+          isDelete
+          componentId
+          mobileChildStyle {
+            id
+            width
+            height
+            margin
+            padding
+            background
+            backgroundType
+            border
+            borderRadius
+            mobileChildId
           }
         }
       }

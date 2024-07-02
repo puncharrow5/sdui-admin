@@ -17,7 +17,7 @@ export const Header = styled.div<{
   padding-right: ${({ $paddingHorizontal }) => $paddingHorizontal ?? undefined};
   padding-left: ${({ $paddingHorizontal }) => $paddingHorizontal ?? undefined};
   background-color: ${({ $backgroundColor }) => $backgroundColor ?? undefined};
-  border-bottom: 1px solid #e7e7ec;
+  /* border-bottom: 1px solid #e7e7ec; */
   z-index: 1;
 `;
 

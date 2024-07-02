@@ -4,14 +4,16 @@ import { SectionBox } from "../SectionBox";
 import { HeaderBox } from "../HeaderBox";
 import {
   AdjustmentsHorizontalIcon,
-  ComputerDesktopIcon,
   DevicePhoneMobileIcon,
   DocumentPlusIcon,
+  ComputerDesktopIcon,
+  ArrowRightStartOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 import { CreateBox } from "../CreateBox";
 import { FooterBox } from "../FooterBox";
 import { MobileHeaderBox } from "../MobileHeaderBox";
 import * as S from "./SidePanel.style";
+import { useRouter } from "next/router";
 
 interface Props {
   data?: SiteEntity;
@@ -21,6 +23,8 @@ interface Props {
 }
 
 export const SidePanel = ({ data, isMobile, handleSetDesktop, handleSetMobile }: Props) => {
+  const router = useRouter();
+
   const [openMenu, setOpenMenu] = useState<boolean>(false);
   const [openCreateBox, setOpenCreateBox] = useState<boolean>(false);
   const [sections, setSections] = useState<ComponentEntity[]>([]);
@@ -37,6 +41,10 @@ export const SidePanel = ({ data, isMobile, handleSetDesktop, handleSetMobile }:
   };
   const handleCloseCreateBox = () => {
     setOpenCreateBox(false);
+  };
+
+  const handleGoDashboard = () => {
+    router.push("/dashboard");
   };
 
   useEffect(() => {
@@ -84,6 +92,11 @@ export const SidePanel = ({ data, isMobile, handleSetDesktop, handleSetMobile }:
               <S.MenuItem onClick={handleOpenCreateBox}>
                 <DocumentPlusIcon className="size-4" />
                 <p>컴포넌트 생성</p>
+              </S.MenuItem>
+              <S.Line />
+              <S.MenuItem onClick={handleGoDashboard}>
+                <ArrowRightStartOnRectangleIcon className="size-4" />
+                <p>대시보드</p>
               </S.MenuItem>
             </S.Menu>
           )}

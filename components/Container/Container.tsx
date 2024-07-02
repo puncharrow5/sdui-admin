@@ -43,7 +43,7 @@ export const Container = ({ data }: Props) => {
     <S.Container $paddingTop={data.header?.height}>
       <Header sectionNames={sectionNames} data={data.header ?? undefined} />
       {sections.map((value: ComponentEntity, index: number) => (
-        <Section key={index} id={value.name} data={value} isMobile={false} />
+        <Section key={index} id={value.name} data={value} />
       ))}
       {inquiry && <Inquiry id={inquiry.name} data={inquiry} siteEmail={data.email} />}
       <Footer data={data.footer ?? undefined} />

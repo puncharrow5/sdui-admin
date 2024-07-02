@@ -18,7 +18,7 @@ export const Header = styled.div<{
   font-weight: bold;
   color: ${({ $textColor }) => $textColor ?? "#000"};
   background-color: ${({ $backgroundColor }) => $backgroundColor ?? "transparent"};
-  border-bottom: 1px solid #e7e7ec;
+  /* border-bottom: 1px solid #e7e7ec; */
 `;
 
 export const Logo = styled.img<{

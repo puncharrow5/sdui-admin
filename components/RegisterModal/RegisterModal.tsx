@@ -12,10 +12,10 @@ import { useApolloClient } from "@apollo/client";
 type Step = "FirstStep" | "Create" | "Link";
 
 interface Props {
-  handleCloseModal: () => void;
+  handleCloseRegisterModal: () => void;
 }
 
-export const RegisterModal = ({ handleCloseModal }: Props) => {
+export const RegisterModal = ({ handleCloseRegisterModal }: Props) => {
   const client = useApolloClient();
   const { ToastMessage } = useToastMessage();
 
@@ -33,7 +33,7 @@ export const RegisterModal = ({ handleCloseModal }: Props) => {
 
       ToastMessage("info", "사이트가 생성되었습니다.");
 
-      handleCloseModal();
+      handleCloseRegisterModal();
     },
     onError: (e) => {
       ToastMessage("error", e.message ?? e);
@@ -124,10 +124,10 @@ export const RegisterModal = ({ handleCloseModal }: Props) => {
   };
 
   return (
-    <S.Backdrop onClick={handleCloseModal}>
+    <S.Backdrop onClick={handleCloseRegisterModal}>
       <S.Box onClick={(e) => e.stopPropagation()}>
         <XMarkIcon
-          onClick={handleCloseModal}
+          onClick={handleCloseRegisterModal}
           className="absolute size-8 top-4 right-6 cursor-pointer"
         />
 

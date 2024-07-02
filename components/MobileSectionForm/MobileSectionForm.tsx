@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useApolloClient } from "@apollo/client";
 import { useToastMessage } from "@/hooks";
 import {
@@ -6,7 +6,7 @@ import {
   ChildType,
   ComponentEntity,
   FindOneSiteByIdDocument,
-  useCreateChildMutation,
+  useCreateMobileChildMutation,
   useUpdateComponentMutation,
 } from "@/graphql/generated/types";
 import { useFormik } from "formik";
@@ -34,7 +34,7 @@ export const MobileSectionForm = ({ data }: Props) => {
     },
   });
 
-  const [loadCreateChild, { loading: createLoading }] = useCreateChildMutation({
+  const [loadCreateMobileChild, { loading: createLoading }] = useCreateMobileChildMutation({
     onCompleted: () => {
       client.refetchQueries({ include: [FindOneSiteByIdDocument] });
 
@@ -58,6 +58,7 @@ export const MobileSectionForm = ({ data }: Props) => {
   };
 
   const handleSubmit = () => {
+    console.log(formik.values);
     loadUpdateComponent({
       variables: {
         id: data.id,
@@ -75,7 +76,7 @@ export const MobileSectionForm = ({ data }: Props) => {
   };
 
   const handleCreateChild = () => {
-    loadCreateChild({
+    loadCreateMobileChild({
       variables: {
         childType: ChildType.Box,
         componentId: data.id,
@@ -93,14 +94,14 @@ export const MobileSectionForm = ({ data }: Props) => {
         background: data.componentMobileStyle?.background ?? undefined,
         backgroundType: data.componentMobileStyle?.backgroundType ?? BackgroundType.Color,
       },
-      title: data?.title ?? undefined,
+      mobileTitle: data?.mobileTitle ?? undefined,
       titleStyle: {
         mobileSize: data?.titleStyle?.mobileSize ?? undefined,
         color: data?.titleStyle?.color ?? undefined,
         mobileMargin: data.titleStyle?.mobileMargin ?? undefined,
         mobileLineHeight: data.titleStyle?.mobileLineHeight ?? undefined,
       },
-      content: data.content ?? undefined,
+      mobileContent: data.mobileContent ?? undefined,
       contentStyle: {
         mobileSize: data.contentStyle?.mobileSize ?? undefined,
         color: data?.contentStyle?.color ?? undefined,
@@ -202,8 +203,8 @@ export const MobileSectionForm = ({ data }: Props) => {
       <S.ItemBox $marginTop={5}>
         <p className="font-bold">텍스트</p>
         <S.Input
-          value={formik.values.title ?? undefined}
-          onChange={formik.handleChange("title")}
+          value={formik.values.mobileTitle ?? undefined}
+          onChange={formik.handleChange("mobileTitle")}
           width="280px"
         />
       </S.ItemBox>
@@ -250,7 +251,7 @@ export const MobileSectionForm = ({ data }: Props) => {
             name="titleStyle.mobileLineHeight"
             value={formik.values.titleStyle.mobileLineHeight ?? undefined}
             onChange={(e) =>
-              formik.setFieldValue("titleStyle.mobileLineHeight", parseInt(e.target.value))
+              formik.setFieldValue("titleStyle.mobileLineHeight", parseFloat(e.target.value))
             }
             width="90px"
             $textAlign="center"
@@ -263,8 +264,8 @@ export const MobileSectionForm = ({ data }: Props) => {
       <S.ItemBox $marginTop={10} $alignItems="flex-start">
         <p className="font-bold">텍스트</p>
         <S.Textarea
-          value={formik.values.content ?? undefined}
-          onChange={formik.handleChange("content")}
+          value={formik.values.mobileContent ?? undefined}
+          onChange={formik.handleChange("mobileContent")}
           width="280px"
         />
       </S.ItemBox>
@@ -311,7 +312,7 @@ export const MobileSectionForm = ({ data }: Props) => {
             name="contentStyle.mobileLineHeight"
             value={formik.values.contentStyle.mobileLineHeight ?? undefined}
             onChange={(e) =>
-              formik.setFieldValue("contentStyle.mobileLineHeight", parseInt(e.target.value))
+              formik.setFieldValue("contentStyle.mobileLineHeight", parseFloat(e.target.value))
             }
             width="90px"
             $textAlign="center"
