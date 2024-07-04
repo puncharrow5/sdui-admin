@@ -18,6 +18,20 @@ export type Scalars = {
   Upload: { input: any; output: any; }
 };
 
+/** 관리자 */
+export type AdminEntity = {
+  /** 이메일 */
+  email: Scalars['String']['output'];
+  /** ID */
+  id: Scalars['Int']['output'];
+  /** 비밀번호 */
+  password: Scalars['String']['output'];
+  /** 관리자 권한 */
+  role?: Maybe<RoleEntity>;
+  /** 관리자 권한 ID */
+  roleId: Scalars['Int']['output'];
+};
+
 /** 배경 종류 */
 export enum BackgroundType {
   /** 색상 */
@@ -412,13 +426,13 @@ export type Mutation = {
   updateChild: Scalars['Boolean']['output'];
   /** 컴포넌트 수정 */
   updateComponent: Scalars['Boolean']['output'];
-  /** 푸터 설정 */
+  /** 푸터 수정 */
   updateFooter: Scalars['Boolean']['output'];
-  /** 헤더 설정 */
+  /** 헤더 수정 */
   updateHeader: Scalars['Boolean']['output'];
   /** 모바일 자식 컴포넌트 업데이트 */
   updateMobileChild: Scalars['Boolean']['output'];
-  /** 모바일 헤더 설정 */
+  /** 모바일 헤더 수정 */
   updateMobileHeader: Scalars['Boolean']['output'];
 };
 
@@ -564,6 +578,8 @@ export type MutationUpdateMobileHeaderArgs = {
 };
 
 export type Query = {
+  /** 관리자 정보 */
+  findAdmin: AdminEntity;
   /** 관리자 ID로 사이트 목록 조회 */
   findManySite: Array<SiteEntity>;
   /** 도메인으로 사이트 조회 */
@@ -580,6 +596,16 @@ export type QueryFindOneSiteByDomainArgs = {
 
 export type QueryFindOneSiteByIdArgs = {
   id: Scalars['Int']['input'];
+};
+
+/** 관리자 권한 */
+export type RoleEntity = {
+  /** 설명 */
+  description: Scalars['String']['output'];
+  /** ID */
+  id: Scalars['Int']['output'];
+  /** 이름 */
+  name: Scalars['String']['output'];
 };
 
 /** 사이트 */

@@ -1,13 +1,8 @@
 import React, { useState } from "react";
-import * as S from "./RegisterModal.style";
+import { ConnectForm } from "../ConnectForm";
+import { CreateForm } from "../CreateForm";
 import { ChevronRightIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import {
-  CreateSiteMutationVariables,
-  FindManySiteDocument,
-  useCreateSiteMutation,
-} from "@/graphql/generated/types";
-import { useToastMessage } from "@/hooks";
-import { useApolloClient } from "@apollo/client";
+import * as S from "./RegisterModal.style";
 
 type Step = "FirstStep" | "Create" | "Link";
 
@@ -16,47 +11,7 @@ interface Props {
 }
 
 export const RegisterModal = ({ handleCloseRegisterModal }: Props) => {
-  const client = useApolloClient();
-  const { ToastMessage } = useToastMessage();
-
   const [step, setStep] = useState<Step>("FirstStep");
-  const [createValues, setCreateValues] = useState<CreateSiteMutationVariables>({
-    name: "",
-    domain: "",
-    email: "",
-  });
-
-  const [loadCreateSite] = useCreateSiteMutation({
-    fetchPolicy: "network-only",
-    onCompleted: () => {
-      client.refetchQueries({ include: [FindManySiteDocument] });
-
-      ToastMessage("info", "사이트가 생성되었습니다.");
-
-      handleCloseRegisterModal();
-    },
-    onError: (e) => {
-      ToastMessage("error", e.message ?? e);
-    },
-  });
-
-  const handleCreate = () => {
-    loadCreateSite({
-      variables: {
-        ...createValues,
-      },
-    });
-  };
-
-  const handleConnect = () => {};
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setCreateValues({
-      ...createValues,
-      [name]: value,
-    });
-  };
 
   const renderModalContent = () => {
     switch (step) {
@@ -75,51 +30,9 @@ export const RegisterModal = ({ handleCloseRegisterModal }: Props) => {
           </S.FirstStep>
         );
       case "Create":
-        return (
-          <S.SecondStep>
-            <S.Title fontSize={24}>사이트 생성</S.Title>
-            <S.Label>사이트 이름</S.Label>
-            <S.Input
-              name="name"
-              value={createValues.name}
-              onChange={handleChange}
-              placeholder="사이트 이름"
-            />
-            <S.Label>도메인</S.Label>
-            <S.Input
-              name="domain"
-              value={createValues.domain}
-              onChange={handleChange}
-              placeholder="http://domain.com"
-            />
-            <S.Label>이메일</S.Label>
-            <S.Input
-              name="email"
-              value={createValues.email}
-              onChange={handleChange}
-              placeholder="site@email.com"
-            />
-            <S.SubmitButton onClick={handleCreate}>
-              <p className="font-bold">사이트 생성</p>
-            </S.SubmitButton>
-          </S.SecondStep>
-        );
+        return <CreateForm handleCloseRegisterModal={handleCloseRegisterModal} />;
       case "Link":
-        return (
-          <S.SecondStep>
-            <S.Title fontSize={24}>사이트 연결</S.Title>
-            <S.Label>도메인</S.Label>
-            <S.Input
-              name="domain"
-              value={createValues.domain}
-              onChange={handleChange}
-              placeholder="http://domain.com"
-            />
-            <S.SubmitButton onClick={handleConnect}>
-              <p className="font-bold">사이트 연결</p>
-            </S.SubmitButton>
-          </S.SecondStep>
-        );
+        return <ConnectForm handleCloseRegisterModal={handleCloseRegisterModal} />;
     }
   };
 

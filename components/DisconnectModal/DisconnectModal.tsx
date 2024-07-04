@@ -1,16 +1,9 @@
-import React, { useState } from "react";
-import * as S from "./DisconnectModal.style";
-import { ChevronRightIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import {
-  CreateSiteMutationVariables,
-  FindManySiteDocument,
-  useCreateSiteMutation,
-  useDisconnectSiteMutation,
-} from "@/graphql/generated/types";
-import { useToastMessage } from "@/hooks";
+import React from "react";
 import { useApolloClient } from "@apollo/client";
-
-type Step = "FirstStep" | "Create" | "Link";
+import { useToastMessage } from "@/hooks";
+import { FindManySiteDocument, useDisconnectSiteMutation } from "@/graphql/generated/types";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import * as S from "./DisconnectModal.style";
 
 interface Props {
   siteId?: number;
@@ -21,7 +14,7 @@ export const DisconnectModal = ({ siteId, handleCloseDisconnectModal }: Props) =
   const client = useApolloClient();
   const { ToastMessage } = useToastMessage();
 
-  const [loadCreateSite] = useDisconnectSiteMutation({
+  const [loadDisconnectSite] = useDisconnectSiteMutation({
     fetchPolicy: "network-only",
     onCompleted: () => {
       client.refetchQueries({ include: [FindManySiteDocument] });
@@ -35,7 +28,17 @@ export const DisconnectModal = ({ siteId, handleCloseDisconnectModal }: Props) =
     },
   });
 
-  const handleDisconnect = () => {};
+  const handleDisconnect = () => {
+    if (!siteId) {
+      return;
+    }
+
+    loadDisconnectSite({
+      variables: {
+        id: siteId,
+      },
+    });
+  };
 
   return (
     <S.Backdrop onClick={handleCloseDisconnectModal}>
@@ -44,13 +47,11 @@ export const DisconnectModal = ({ siteId, handleCloseDisconnectModal }: Props) =
           onClick={handleCloseDisconnectModal}
           className="absolute size-8 top-4 right-6 cursor-pointer"
         />
-
         <S.Title>사이트 연결 해제</S.Title>
         <S.Label>연결을 해제하시겠습니까?</S.Label>
-
-        <S.SubmitButton onClick={handleDisconnect}>
-          <p className="font-bold">확인</p>
-        </S.SubmitButton>
+        <S.Button onClick={handleDisconnect}>
+          <p>확인</p>
+        </S.Button>
       </S.Box>
     </S.Backdrop>
   );

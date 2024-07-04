@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import {
-  FindManySiteDocument,
-  useDisconnectSiteMutation,
-  useFindManySiteQuery,
-} from "@/graphql/generated/types";
-import { useApolloClient } from "@apollo/client";
-import { useToastMessage } from "@/hooks";
+import { useFindManySiteQuery } from "@/graphql/generated/types";
 import { RegisterModal } from "../RegisterModal";
 import { DisconnectModal } from "../DisconnectModal";
 import { TrashIcon } from "@heroicons/react/24/outline";
@@ -14,8 +8,6 @@ import * as S from "./SiteList.style";
 
 export const SiteList = () => {
   const router = useRouter();
-  const client = useApolloClient();
-  const { ToastMessage } = useToastMessage();
 
   const [openRegister, setOpenRegister] = useState<boolean>(false);
   const [openDisconnect, setOpenDisconnect] = useState<boolean>(false);
@@ -23,25 +15,8 @@ export const SiteList = () => {
 
   const { data } = useFindManySiteQuery({ fetchPolicy: "network-only" });
 
-  const [loadDisconnect] = useDisconnectSiteMutation({
-    onCompleted: () => {
-      client.refetchQueries({ include: [FindManySiteDocument] });
-
-      ToastMessage("info", "사이트 연결이 해제되었습니다.");
-    },
-    fetchPolicy: "network-only",
-  });
-
   const handleRoute = (siteId: number) => (e: React.MouseEvent<HTMLDivElement>) => {
     router.push(`/edit/${siteId}`);
-  };
-
-  const handleDisconnect = (id: number) => () => {
-    loadDisconnect({
-      variables: {
-        id,
-      },
-    });
   };
 
   const handleOpenRegisterModal = () => {
